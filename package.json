@@ -1,0 +1,54 @@
+{
+  "name": "shock-common",
+  "version": "0.0.1",
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
+  "react-native": "dist/index.es.js",
+  "author": "Shock Network, INC",
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "lint": "eslint src --ext .js,.ts",
+    "prettify": "prettier --write \"index.js\" \"app/**/*.{js,ts}\"",
+    "format": "yarn prettify",
+    "clean": "rimraf -rf dist",
+    "compile": "tsc",
+    "post-compile-a": "cp-cli dist/index.js dist/index.es.js",
+    "post-compile-b": "cp-cli dist/index.d.ts dist/index.es.d.ts",
+    "bundle": "parcel build dist/index.es.js --target node --out-file index.js",
+    "build": "yarn clean && yarn compile && yarn post-compile-a && yarn post-compile-b && yarn bundle",
+    "test": "echo \"No test specified\""
+  },
+  "dependencies": {
+    "lodash": "^4.17.15",
+    "normalizr": "^3.6.0"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.150",
+    "@typescript-eslint/eslint-plugin": "^2.31.0",
+    "@typescript-eslint/parser": "^2.31.0",
+    "cp-cli": "^2.0.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.11.0",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.2",
+    "parcel-bundler": "^1.12.4",
+    "prettier": "^2.0.5",
+    "rimraf": "^3.0.2",
+    "typescript": "^3.8.3"
+  },
+  "lint-staged": {
+    "*.{js,ts}": [
+      "prettier --check",
+      "eslint",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn build && yarn lint-staged"
+    }
+  }
+}
