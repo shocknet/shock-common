@@ -1,5 +1,8 @@
 module.exports = {
   root: true,
+  env: {
+    es6: true,
+  },
   parser: '@typescript-eslint/parser',
   parserOptions: {
     tsconfigRootDir: __dirname,
