@@ -12,7 +12,7 @@
   ],
   "scripts": {
     "lint": "eslint src --ext .js,.ts",
-    "prettify": "prettier --write \"index.js\" \"app/**/*.{js,ts}\"",
+    "prettify": "prettier --write \"src/**/*.{js,ts}\"",
     "format": "yarn prettify",
     "clean": "rimraf -rf dist",
     "compile": "tsc",
