@@ -1,5 +1,4 @@
 /**
- * @format
  * Contains types that are used throughout the application. Written in
  * typescript for easier implementation.
  *
