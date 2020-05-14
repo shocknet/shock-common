@@ -5,6 +5,11 @@ import isNumber from 'lodash/isNumber'
 import isNaN from 'lodash/isNaN'
 
 /**
+ * @typedef {import('./schema-types').User} User
+ * @typedef {import('./schema-types').PartialUser} PartialUser
+ */
+
+/**
  * @typedef {object} HandshakeRequest
  * @prop {string} from Public key of the requestor.
  * @prop {string} response Encrypted string where, if the recipient accepts the

@@ -18,11 +18,11 @@ export enum _EncSpontPayment {
  */
 export type EncSpontPayment = _EncSpontPayment & string
 
-interface HasPublicKey {
+export interface HasPublicKey {
   publicKey: string
 }
 
-interface UserBase {
+export interface UserBase {
   avatar: string | null
   bio: string | null
   displayName: string | null
