@@ -1,5 +1,4 @@
 /**
- * @format
  * Contains types that are used throughout the application. Written in
  * typescript for easier implementation.
  *
@@ -18,3 +17,19 @@ export enum _EncSpontPayment {
  * Spontaneous payment as found inside a chat message body.
  */
 export type EncSpontPayment = _EncSpontPayment & string
+
+export interface HasPublicKey {
+  publicKey: string
+}
+
+export interface UserBase {
+  avatar: string | null
+  bio: string | null
+  displayName: string | null
+  lastSeenApp: number
+  lastSeenNode: number
+}
+
+export type User = HasPublicKey & UserBase
+
+export type PartialUser = HasPublicKey & Partial<User>

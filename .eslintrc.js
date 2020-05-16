@@ -1,5 +1,8 @@
 module.exports = {
   root: true,
+  env: {
+    es6: true,
+  },
   parser: '@typescript-eslint/parser',
   parserOptions: {
     tsconfigRootDir: __dirname,
@@ -16,5 +19,7 @@ module.exports = {
   rules: {
     // complains about javascript file functions even though it shouldn't
     '@typescript-eslint/explicit-function-return-type': 0,
+    // hostile rule
+    '@typescript-eslint/no-explicit-any': 0,
   },
 }
