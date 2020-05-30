@@ -4,10 +4,6 @@ import isNaN from 'lodash/isNaN'
 
 import * as logger from '../logger'
 
-import * as API from './api'
-
-export { API }
-
 /**
  * @typedef {import('./schema-types').User} User
  * @typedef {import('./schema-types').PartialUser} PartialUser
@@ -728,4 +724,27 @@ export const isFeed = (o) => {
   }
 
   return Object.values(f.numOfPages).every((fp) => isFeedPage(fp))
+}
+
+/**
+ * @typedef {import('./schema-types').Follow} Follow
+ */
+
+/**
+ *
+ * @param {unknown} o
+ * @returns {o is Follow}
+ */
+export const isFollow = (o) => {
+  if (!isObj(o)) {
+    return false
+  }
+
+  const f = /** @type {Follow} */ (o)
+
+  const statusIsOk = f.status === 'ok' || f.status === 'processing'
+
+  return (
+    statusIsOk && typeof f.user === 'string' && typeof f.private === 'boolean'
+  )
 }

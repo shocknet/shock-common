@@ -134,3 +134,9 @@ export interface Feed extends FeedBase {
 export interface FeedN extends FeedBase {
   pages: Record<number, string>
 }
+
+export interface Follow {
+  user: string
+  status: 'ok' | 'processing'
+  private: boolean
+}
