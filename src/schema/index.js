@@ -1,8 +1,8 @@
-import * as logger from '../logger'
-
 import isFinite from 'lodash/isFinite'
 import isNumber from 'lodash/isNumber'
 import isNaN from 'lodash/isNaN'
+
+import * as logger from '../logger'
 
 /**
  * @typedef {import('./schema-types').User} User
