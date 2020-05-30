@@ -13,6 +13,7 @@
 export enum _EncSpontPayment {
   _ = '',
 }
+
 /**
  * Spontaneous payment as found inside a chat message body.
  */
@@ -33,3 +34,103 @@ export interface UserBase {
 export type User = HasPublicKey & UserBase
 
 export type PartialUser = HasPublicKey & Partial<User>
+
+export interface EmbeddedVideo {
+  type: 'video/embedded'
+
+  magnetURI: string
+
+  width: string
+
+  height: string
+}
+
+export interface EmbeddedImage {
+  type: 'image/embedded'
+
+  magnetURI: string
+
+  width: string
+
+  height: string
+}
+
+export interface Paragraph {
+  type: 'text/paragraph'
+
+  text: string
+}
+
+export type ContentItem = EmbeddedImage | EmbeddedVideo | Paragraph
+
+export type PostStatus = 'draft' | 'publish' | 'private' | 'pending'
+
+export interface PostBase {
+  /**
+   * Unix timestamp.
+   */
+  date: number
+
+  /**
+   * Pending means it's being uploaded.
+   */
+  status: PostStatus
+
+  title: string
+
+  /**
+   * Hyphen-delimited tags.
+   */
+  tags: string
+
+  contentItems: Record<string, ContentItem>
+}
+
+/**
+ * Post as seen by its author.
+ */
+export type Post = PostBase
+
+/**
+ * Post as it's received by a reader.
+ */
+export type AuthoredPostBase = PostBase
+
+export interface AuthoredPost extends AuthoredPostBase {
+  author: User
+}
+
+export interface AuthoredPostN extends PostBase {
+  author: string
+}
+
+export interface AuthoredPostN extends Post {
+  author: string
+}
+
+export interface FeedPageBase {
+  count: number
+}
+
+export interface FeedPage extends FeedPageBase {
+  posts: Record<string, Post>
+}
+
+export interface FeedPageN extends FeedPageBase {
+  posts: Record<string, string>
+}
+
+/**
+ * Feed as seen by its author.
+ */
+export interface FeedBase {
+  numOfPages: number
+}
+
+export interface Feed extends FeedBase {
+  pages: Record<number, FeedPage>
+}
+
+export interface FeedN extends FeedBase {
+  pages: Record<number, string>
+}
