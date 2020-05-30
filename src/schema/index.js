@@ -1,8 +1,8 @@
-import * as logger from '../logger'
-
 import isFinite from 'lodash/isFinite'
 import isNumber from 'lodash/isNumber'
 import isNaN from 'lodash/isNaN'
+
+import * as logger from '../logger'
 
 /**
  * @typedef {import('./schema-types').User} User
@@ -724,4 +724,27 @@ export const isFeed = (o) => {
   }
 
   return Object.values(f.numOfPages).every((fp) => isFeedPage(fp))
+}
+
+/**
+ * @typedef {import('./schema-types').Follow} Follow
+ */
+
+/**
+ *
+ * @param {unknown} o
+ * @returns {o is Follow}
+ */
+export const isFollow = (o) => {
+  if (!isObj(o)) {
+    return false
+  }
+
+  const f = /** @type {Follow} */ (o)
+
+  const statusIsOk = f.status === 'ok' || f.status === 'processing'
+
+  return (
+    statusIsOk && typeof f.user === 'string' && typeof f.private === 'boolean'
+  )
 }
