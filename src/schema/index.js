@@ -7,6 +7,15 @@ import isNaN from 'lodash/isNaN'
 /**
  * @typedef {import('./schema-types').User} User
  * @typedef {import('./schema-types').PartialUser} PartialUser
+ * @typedef {import('./schema-types').EmbeddedImage} EmbeddedImage
+ * @typedef {import('./schema-types').EmbeddedVideo} EmbeddedVideo
+ * @typedef {import('./schema-types').ContentItem} ContentItem
+ * @typedef {import('./schema-types').Paragraph} Paragraph
+ * @typedef {import('./schema-types').PostStatus} PostStatus
+ * @typedef {import('./schema-types').Post} Post
+ * @typedef {import('./schema-types').AuthoredPost} AuthoredPost
+ * @typedef {import('./schema-types').FeedPage} FeedPage
+ * @typedef {import('./schema-types').Feed} Feed
  */
 
 /**
@@ -32,6 +41,12 @@ import isNaN from 'lodash/isNaN'
  * otherwise it is an incoming message.
  * @prop {number} timestamp
  */
+
+/**
+ * @param {unknown} o
+ * @returns {o is any}
+ */
+export const isObj = (o) => typeof o === 'object' && o !== null
 
 /**
  *
@@ -530,4 +545,183 @@ export const encodeSpontaneousPayment = (amt, memo, preimage) => {
   }
 
   throw new Error('isEncodedSpontPayment(enc) false')
+}
+
+/**
+ * @param {unknown} o
+ * @returns {o is User}
+ */
+export const isUser = (o) => {
+  const obj = /** @type {User} */ (o)
+
+  /**
+   * @param {any} str
+   * @returns {boolean}
+   */
+  const isNullablestring = (str) => str === 'string' || str === null
+
+  return (
+    isNullablestring(obj.avatar) &&
+    isNullablestring(obj.bio) &&
+    isNullablestring(obj.displayName) &&
+    typeof obj.lastSeenApp === 'number' &&
+    typeof obj.lastSeenNode &&
+    typeof obj.publicKey === 'string'
+  )
+}
+
+/**
+ * @param {ContentItem} contentItem
+ * @returns {contentItem is EmbeddedImage}
+ */
+export const isEmbeddedImage = (contentItem) => {
+  if (!isObj(contentItem)) {
+    return false
+  }
+
+  if (contentItem.type !== 'image/embedded') {
+    return false
+  }
+
+  if (typeof contentItem.height !== 'number') {
+    return false
+  }
+
+  if (typeof contentItem.magnetURI !== 'string') {
+    return false
+  }
+
+  if (typeof contentItem.width !== 'number') {
+    return false
+  }
+
+  return true
+}
+
+/**
+ * @param {ContentItem} contentItem
+ * @returns {contentItem is EmbeddedVideo}
+ */
+export const isEmbeddedVideo = (contentItem) => {
+  if (!isObj(contentItem)) {
+    return false
+  }
+
+  if (contentItem.type !== 'video/embedded') {
+    return false
+  }
+
+  if (typeof contentItem.height !== 'number') {
+    return false
+  }
+
+  if (typeof contentItem.magnetURI !== 'string') {
+    return false
+  }
+
+  if (typeof contentItem.width !== 'number') {
+    return false
+  }
+
+  return true
+}
+
+/**
+ *
+ * @param {ContentItem} contentItem
+ * @returns {contentItem is Paragraph}
+ */
+export const isParagraph = (contentItem) => {
+  if (!isObj(contentItem)) {
+    return false
+  }
+
+  if (contentItem.type !== 'text/paragraph') {
+    return false
+  }
+
+  if (typeof contentItem.text !== 'string') {
+    return false
+  }
+
+  return true
+}
+
+/**
+ * @param {ContentItem} contentItem
+ * @returns {contentItem is ContentItem}
+ */
+export const isContentItem = (contentItem) =>
+  isEmbeddedVideo(contentItem) ||
+  isEmbeddedImage(contentItem) ||
+  isParagraph(contentItem)
+
+/**
+ * @param {PostStatus} str
+ * @returns {str is PostStatus}
+ */
+export const isPostStatus = (str) =>
+  str === 'draft' || str === 'pending' || str === 'private' || str === 'publish'
+
+/**
+ * @param {unknown} o
+ * @returns {o is Post}
+ */
+export const isPost = (o) => {
+  if (!isObj(o)) {
+    return false
+  }
+
+  const obj = /** @type {Post} */ (o)
+
+  return (
+    typeof obj.date === 'number' &&
+    isPostStatus(obj.status) &&
+    typeof obj.tags === 'string' &&
+    typeof obj.title === 'string' &&
+    isObj(obj.contentItems) &&
+    Object.values(obj.contentItems).every((ci) => isContentItem(ci))
+  )
+}
+
+/**
+ * @param {AuthoredPost} o
+ * @returns {o is AuthoredPost}
+ */
+export const isAuthoredPost = (o) => isPost(o) && isUser(o.author)
+
+/**
+ * @param {unknown} o
+ * @returns {o is FeedPage}
+ */
+export const isFeedPage = (o) => {
+  const fp = /** @type {FeedPage} */ (o)
+
+  if (typeof fp.count !== 'number') {
+    return false
+  }
+
+  if (!isObj(fp.posts)) {
+    return false
+  }
+
+  return Object.values(fp.posts).every((p) => isPost(p))
+}
+
+/**
+ * @param {unknown} o
+ * @returns {o is Feed}
+ */
+export const isFeed = (o) => {
+  if (!isObj(o)) {
+    return false
+  }
+
+  const f = /** @type {Feed} */ (o)
+
+  if (typeof f.numOfPages !== 'number') {
+    return false
+  }
+
+  return Object.values(f.numOfPages).every((fp) => isFeedPage(fp))
 }
