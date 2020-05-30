@@ -4,6 +4,10 @@ import isNaN from 'lodash/isNaN'
 
 import * as logger from '../logger'
 
+import * as API from './api'
+
+export { API }
+
 /**
  * @typedef {import('./schema-types').User} User
  * @typedef {import('./schema-types').PartialUser} PartialUser
