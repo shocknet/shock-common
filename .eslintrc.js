@@ -3,6 +3,9 @@ module.exports = {
   env: {
     es6: true,
   },
+  globals: {
+    fetch: 'readonly',
+  },
   parser: '@typescript-eslint/parser',
   parserOptions: {
     tsconfigRootDir: __dirname,
