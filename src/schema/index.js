@@ -747,3 +747,7 @@ export const isFollow = (o) => {
     statusIsOk && typeof f.user === 'string' && typeof f.private === 'boolean'
   )
 }
+
+/**
+ * @typedef {'MAX'|'MID'|'MIN'} FeeLevel
+ */
