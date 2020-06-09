@@ -7,3 +7,7 @@
 - Enums are singular-named. E.g. `Action` instead of `Actions`.
 
 - Use dependency injection for platform-specific stuff (fetch, storage, etc).
+
+- Enums are singular-named. E.g. Color instead of Colors.
+
+- Imports should be ordered as follow: node-modules, external ('../baz'), same-module ('./foo').

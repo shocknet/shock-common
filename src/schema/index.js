@@ -44,13 +44,12 @@ import * as logger from '../logger'
 
 /**
  * @param {unknown} o
- * @returns {o is any}
+ * @returns {o is Record<string, any>}
  */
 export const isObj = (o) => typeof o === 'object' && o !== null
 
 /**
- *
- * @param {any} item
+ * @param {unknown} item
  * @returns {item is ChatMessage}
  */
 export const isChatMessage = (item) => {
@@ -99,7 +98,7 @@ export const isChatMessage = (item) => {
  */
 
 /**
- * @param {any} item
+ * @param {unknown} item
  * @returns {item is Chat}
  */
 export const isChat = (item) => {
@@ -161,7 +160,7 @@ export const isChat = (item) => {
  */
 
 /**
- * @param {any} item
+ * @param {unknown} item
  * @returns {item is StoredRequest}
  */
 export const isStoredRequest = (item) => {
@@ -187,7 +186,7 @@ export const isStoredRequest = (item) => {
  */
 
 /**
- * @param {any} item
+ * @param {unknown} item
  * @returns {item is SimpleSentRequest}
  */
 export const isSimpleSentRequest = (item) => {
@@ -241,7 +240,7 @@ export const isSimpleSentRequest = (item) => {
  */
 
 /**
- * @param {any} item
+ * @param {unknown} item
  * @returns {item is SimpleReceivedRequest}
  */
 export const isSimpleReceivedRequest = (item) => {
@@ -282,7 +281,7 @@ export const isSimpleReceivedRequest = (item) => {
 }
 
 /**
- * @param {any} item
+ * @param {unknown} item
  * @returns {item is HandshakeRequest}
  */
 export const isHandshakeRequest = (item) => {
@@ -312,7 +311,7 @@ export const isHandshakeRequest = (item) => {
 }
 
 /**
- * @param {any} item
+ * @param {unknown} item
  * @returns {item is Message}
  */
 export const isMessage = (item) => {
@@ -330,7 +329,7 @@ export const isMessage = (item) => {
 }
 
 /**
- * @param {any} item
+ * @param {unknown} item
  * @returns {item is PartialOutgoing}
  */
 export const isPartialOutgoing = (item) => {
@@ -348,7 +347,7 @@ export const isPartialOutgoing = (item) => {
 }
 
 /**
- * @param {any} item
+ * @param {unknown} item
  * @returns {item is Outgoing}
  */
 export const isOutgoing = (item) => {
@@ -378,7 +377,7 @@ export const isOutgoing = (item) => {
  */
 
 /**
- * @param {any} item
+ * @param {unknown} item
  * @returns {item is Order}
  */
 export const isOrder = (item) => {
@@ -414,7 +413,7 @@ export const isOrder = (item) => {
  */
 
 /**
- * @param {*} o
+ * @param {unknown} o
  * @returns {o is OrderResponse}
  */
 export const isOrderResponse = (o) => {
@@ -748,3 +747,7 @@ export const isFollow = (o) => {
     statusIsOk && typeof f.user === 'string' && typeof f.private === 'boolean'
   )
 }
+
+/**
+ * @typedef {'MAX'|'MID'|'MIN'} FeeLevel
+ */

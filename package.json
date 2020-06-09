@@ -23,15 +23,18 @@
     "test": "echo \"No test specified\""
   },
   "dependencies": {
+    "immer": "^6.0.6",
     "lodash": "^4.17.15",
-    "normalizr": "^3.6.0"
+    "normalizr": "^3.6.0",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.150",
-    "@typescript-eslint/eslint-plugin": "^2.31.0",
-    "@typescript-eslint/parser": "^2.31.0",
+    "@typescript-eslint/eslint-plugin": "^3.1.0",
+    "@typescript-eslint/parser": "^3.1.0",
     "cp-cli": "^2.0.0",
-    "eslint": "^6.8.0",
+    "eslint": "^7.1.0",
     "eslint-config-prettier": "^6.11.0",
     "husky": "^4.2.5",
     "lint-staged": "^10.2.2",
