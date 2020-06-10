@@ -8,9 +8,16 @@ import * as Actions from './actions'
 import { State, reducersObj } from './reducers'
 import * as Selectors from './selectors'
 import * as Thunks from './thunks'
+import * as API from './api'
 
 interface CreateStoreArgs {
   combineReducers: typeof Redux.combineReducers
+  Http: API.Misc.IHttp
+  RSAKeychain: API.Misc.IRSAKeychain
+  bigConstructor: API.Misc.BigConstructor
+  eventProviders: API.EventProviderMap
+  getToken: API.Misc.GetToken
+  uuidv4: API.Misc.UUID
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -37,16 +44,26 @@ type ShockStore = Redux.Store<State, Actions.ShockAction> & {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const createStore = ({ combineReducers }: CreateStoreArgs): ShockStore => {
+const createStore = ({
+  combineReducers,
+  Http,
+  RSAKeychain,
+  bigConstructor,
+  eventProviders,
+  getToken,
+  uuidv4,
+}: CreateStoreArgs): ShockStore => {
+  API.Misc.setHttp(Http)
+  API.Misc.setRSAKeychain(RSAKeychain)
+  API.Misc.setBigConstructor(bigConstructor)
+  API.setEvents(eventProviders)
+  API.Misc.setGetToken(getToken)
+  API.Misc.setUuidv4(uuidv4)
+
   const rootReducer: Redux.Reducer<
     State,
     Actions.ShockAction
   > = combineReducers<State, Actions.ShockAction>(reducersObj)
-
-  // <S, A extends Action, Ext, StateExt>(
-  //   reducer: Reducer<S, A>,
-  //   enhancer?: StoreEnhancer<Ext, StateExt>
-  // ): Store<S & StateExt, A> & Ext
 
   const store: ShockStore = Redux.createStore<
     State,

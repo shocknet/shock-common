@@ -1,8 +1,8 @@
-interface PublicKey {
+export interface PublicKey {
   public: string
 }
 
-interface IRSAKeychain {
+export interface IRSAKeychain {
   keyExists(keyTag: string): Promise<boolean | undefined>
   getPublicKey(keyTag: string): Promise<string | undefined>
   generateKeys(keyTag: string, keySize: number): Promise<PublicKey>
@@ -28,12 +28,12 @@ export const setRSAKeychain = (newRSAKeychain: IRSAKeychain) => {
   RSAKeychain = newRSAKeychain
 }
 
-interface Res<T> {
+export interface Res<T> {
   data: T
   headers: Record<string, any>
 }
 
-interface IHttp {
+export interface IHttp {
   get<T = any>(
     url: string,
     config?: {
@@ -62,11 +62,13 @@ export const setHttp = (newHttp: IHttp) => {
   Http = newHttp
 }
 
-export let getToken = (): Promise<string> => {
+export type GetToken = () => Promise<string>
+
+export let getToken: GetToken = () => {
   throw new Error('Please provide getToken() to shock-common')
 }
 
-export const setGetToken = (newGetToken: () => Promise<string>) => {
+export const setGetToken = (newGetToken: GetToken) => {
   getToken = newGetToken
 }
 
