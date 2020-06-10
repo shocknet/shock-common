@@ -43,11 +43,6 @@ const createStore = ({ combineReducers }: CreateStoreArgs): ShockStore => {
     Actions.ShockAction
   > = combineReducers<State, Actions.ShockAction>(reducersObj)
 
-  // <S, A extends Action, Ext, StateExt>(
-  //   reducer: Reducer<S, A>,
-  //   enhancer?: StoreEnhancer<Ext, StateExt>
-  // ): Store<S & StateExt, A> & Ext
-
   const store: ShockStore = Redux.createStore<
     State,
     Actions.ShockAction,
