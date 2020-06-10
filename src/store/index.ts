@@ -61,4 +61,14 @@ const createStore = ({ combineReducers }: CreateStoreArgs): ShockStore => {
   return store
 }
 
-export { Actions, Selectors, Thunks, createStore, State }
+type ReducersObj = typeof reducersObj
+
+export {
+  Actions,
+  Selectors,
+  Thunks,
+  createStore,
+  State,
+  ReducersObj,
+  ShockStore,
+}
