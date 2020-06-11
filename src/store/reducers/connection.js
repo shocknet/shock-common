@@ -1,10 +1,5 @@
 import * as Actions from '../actions'
-import * as API from '../api'
-
-// TODO: Reducers must be pure. UUID is not.
-const {
-  Misc: { uuidv4 },
-} = API
+import uuidv4 from 'uuid/v4'
 
 /**
  * @typedef {object} State
@@ -20,6 +15,7 @@ const INITIAL_STATE = {
   devicePublicKey: null,
   APIPublicKey: null,
   sessionId: null,
+  // TODO: Reducers must be pure. UUID is not.
   deviceId: uuidv4(),
   socketConnected: false,
 }
