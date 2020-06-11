@@ -17,7 +17,6 @@ interface CreateStoreArgs {
   bigConstructor: API.Misc.BigConstructor
   eventProviders: API.EventProviderMap
   getToken: API.Misc.GetToken
-  uuidv4: API.Misc.UUID
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -51,14 +50,12 @@ const createStore = ({
   bigConstructor,
   eventProviders,
   getToken,
-  uuidv4,
 }: CreateStoreArgs): ShockStore => {
   API.Misc.setHttp(Http)
   API.Misc.setRSAKeychain(RSAKeychain)
   API.Misc.setBigConstructor(bigConstructor)
   API.setEvents(eventProviders)
   API.Misc.setGetToken(getToken)
-  API.Misc.setUuidv4(uuidv4)
 
   const rootReducer: Redux.Reducer<
     State,

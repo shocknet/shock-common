@@ -86,13 +86,3 @@ export let Big: BigConstructor = () => {
 export const setBigConstructor = (newBigConstructor: BigConstructor) => {
   Big = newBigConstructor
 }
-
-export type UUID = () => string
-
-export let uuidv4: UUID = () => {
-  throw new Error(`Please provide uuidv4 to shock-common`)
-}
-
-export const setUuidv4 = (newUuidv4: UUID) => {
-  uuidv4 = newUuidv4
-}
