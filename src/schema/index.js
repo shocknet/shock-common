@@ -707,6 +707,8 @@ export const isFeedPage = (o) => {
   return Object.values(fp.posts).every((p) => isPost(p))
 }
 
+export const isWallPage = isFeedPage
+
 /**
  * @param {unknown} o
  * @returns {o is Feed}
@@ -724,6 +726,8 @@ export const isFeed = (o) => {
 
   return Object.values(f.numOfPages).every((fp) => isFeedPage(fp))
 }
+
+export const isWall = isFeed
 
 /**
  * @typedef {import('./schema-types').Follow} Follow
