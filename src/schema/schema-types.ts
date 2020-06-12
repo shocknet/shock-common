@@ -112,13 +112,19 @@ export interface FeedPageBase {
   count: number
 }
 
+export type WallPageBase = FeedPageBase
+
 export interface FeedPage extends FeedPageBase {
   posts: Record<string, Post>
 }
 
+export type WallPage = FeedPage
+
 export interface FeedPageN extends FeedPageBase {
   posts: Record<string, string>
 }
+
+export type WallPageN = FeedPageN
 
 /**
  * Feed as seen by its author.
@@ -127,13 +133,19 @@ export interface FeedBase {
   numOfPages: number
 }
 
+export type WallBase = FeedBase
+
 export interface Feed extends FeedBase {
   pages: Record<number, FeedPage>
 }
 
+export type Wall = Feed
+
 export interface FeedN extends FeedBase {
   pages: Record<number, string>
 }
+
+export type WallN = FeedN
 
 export interface Follow {
   user: string
