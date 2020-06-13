@@ -108,44 +108,29 @@ export interface AuthoredPostN extends Post {
   author: string
 }
 
-export interface FeedPageBase {
+export interface WallPageBase {
   count: number
 }
 
-export type WallPageBase = FeedPageBase
-
-export interface FeedPage extends FeedPageBase {
+export interface WallPage extends WallPageBase {
   posts: Record<string, Post>
 }
 
-export type WallPage = FeedPage
-
-export interface FeedPageN extends FeedPageBase {
+export interface WallPageN extends WallPageBase {
   posts: Record<string, string>
 }
 
-export type WallPageN = FeedPageN
-
-/**
- * Feed as seen by its author.
- */
-export interface FeedBase {
+export interface WallBase {
   numOfPages: number
 }
 
-export type WallBase = FeedBase
-
-export interface Feed extends FeedBase {
-  pages: Record<number, FeedPage>
+export interface Wall extends WallBase {
+  pages: Record<number, WallPage>
 }
 
-export type Wall = Feed
-
-export interface FeedN extends FeedBase {
+export interface WallN extends WallBase {
   pages: Record<number, string>
 }
-
-export type WallN = FeedN
 
 export interface Follow {
   user: string
