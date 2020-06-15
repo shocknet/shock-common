@@ -108,6 +108,8 @@ export interface AuthoredPostN extends Post {
   author: string
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
 export interface WallPageBase {
   count: number
 }
@@ -131,6 +133,8 @@ export interface Wall extends WallBase {
 export interface WallN extends WallBase {
   pages: Record<number, string>
 }
+
+////////////////////////////////////////////////////////////////////////////////
 
 export interface Follow {
   user: string
