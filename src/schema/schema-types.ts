@@ -66,6 +66,8 @@ export type ContentItem = EmbeddedImage | EmbeddedVideo | Paragraph
 export type PostStatus = 'draft' | 'publish' | 'private' | 'pending'
 
 export interface PostBase {
+  id: string
+
   /**
    * Unix timestamp.
    */
