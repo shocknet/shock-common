@@ -89,22 +89,11 @@ export interface PostBase {
 /**
  * Post as seen by its author.
  */
-export type Post = PostBase
-
-/**
- * Post as it's received by a reader.
- */
-export type AuthoredPostBase = PostBase
-
-export interface AuthoredPost extends AuthoredPostBase {
+export interface Post extends PostBase {
   author: User
 }
 
-export interface AuthoredPostN extends PostBase {
-  author: string
-}
-
-export interface AuthoredPostN extends Post {
+export interface PostN extends PostBase {
   author: string
 }
 

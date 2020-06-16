@@ -16,7 +16,6 @@ export { Gun }
  * @typedef {import('./schema-types').Paragraph} Paragraph
  * @typedef {import('./schema-types').PostStatus} PostStatus
  * @typedef {import('./schema-types').Post} Post
- * @typedef {import('./schema-types').AuthoredPost} AuthoredPost
  * @typedef {import('./schema-types').WallPage} WallPage
  * @typedef {import('./schema-types').Wall} Wall
  */
@@ -685,12 +684,6 @@ export const isPost = (o) => {
     Object.values(obj.contentItems).every((ci) => isContentItem(ci))
   )
 }
-
-/**
- * @param {AuthoredPost} o
- * @returns {o is AuthoredPost}
- */
-export const isAuthoredPost = (o) => isPost(o) && isUser(o.author)
 
 /**
  * @param {unknown} o
