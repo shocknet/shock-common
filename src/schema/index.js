@@ -3,6 +3,9 @@ import isNumber from 'lodash/isNumber'
 import isNaN from 'lodash/isNaN'
 
 import * as logger from '../logger'
+import * as Gun from './gun'
+
+export { Gun }
 
 /**
  * @typedef {import('./schema-types').User} User
@@ -13,9 +16,8 @@ import * as logger from '../logger'
  * @typedef {import('./schema-types').Paragraph} Paragraph
  * @typedef {import('./schema-types').PostStatus} PostStatus
  * @typedef {import('./schema-types').Post} Post
- * @typedef {import('./schema-types').AuthoredPost} AuthoredPost
- * @typedef {import('./schema-types').FeedPage} FeedPage
- * @typedef {import('./schema-types').Feed} Feed
+ * @typedef {import('./schema-types').WallPage} WallPage
+ * @typedef {import('./schema-types').Wall} Wall
  */
 
 /**
@@ -684,17 +686,11 @@ export const isPost = (o) => {
 }
 
 /**
- * @param {AuthoredPost} o
- * @returns {o is AuthoredPost}
- */
-export const isAuthoredPost = (o) => isPost(o) && isUser(o.author)
-
-/**
  * @param {unknown} o
- * @returns {o is FeedPage}
+ * @returns {o is WallPage}
  */
-export const isFeedPage = (o) => {
-  const fp = /** @type {FeedPage} */ (o)
+export const isWallPage = (o) => {
+  const fp = /** @type {WallPage} */ (o)
 
   if (typeof fp.count !== 'number') {
     return false
@@ -707,27 +703,23 @@ export const isFeedPage = (o) => {
   return Object.values(fp.posts).every((p) => isPost(p))
 }
 
-export const isWallPage = isFeedPage
-
 /**
  * @param {unknown} o
- * @returns {o is Feed}
+ * @returns {o is Wall}
  */
-export const isFeed = (o) => {
+export const isWall = (o) => {
   if (!isObj(o)) {
     return false
   }
 
-  const f = /** @type {Feed} */ (o)
+  const f = /** @type {Wall} */ (o)
 
   if (typeof f.numOfPages !== 'number') {
     return false
   }
 
-  return Object.values(f.numOfPages).every((fp) => isFeedPage(fp))
+  return Object.values(f.numOfPages).every((fp) => isWallPage(fp))
 }
-
-export const isWall = isFeed
 
 /**
  * @typedef {import('./schema-types').Follow} Follow
