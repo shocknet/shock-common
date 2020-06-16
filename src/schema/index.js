@@ -676,6 +676,7 @@ export const isPost = (o) => {
   const obj = /** @type {Post} */ (o)
 
   return (
+    typeof obj.id === 'string' &&
     typeof obj.date === 'number' &&
     isPostStatus(obj.status) &&
     typeof obj.tags === 'string' &&
