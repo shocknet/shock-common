@@ -566,7 +566,7 @@ export const isUser = (o) => {
     isNullablestring(obj.bio) &&
     isNullablestring(obj.displayName) &&
     typeof obj.lastSeenApp === 'number' &&
-    typeof obj.lastSeenNode &&
+    typeof obj.lastSeenNode === 'number' &&
     typeof obj.publicKey === 'string'
   )
 }
