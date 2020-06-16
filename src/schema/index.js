@@ -3,6 +3,9 @@ import isNumber from 'lodash/isNumber'
 import isNaN from 'lodash/isNaN'
 
 import * as logger from '../logger'
+import * as Gun from './gun'
+
+export { Gun }
 
 /**
  * @typedef {import('./schema-types').User} User
