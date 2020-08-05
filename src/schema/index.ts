@@ -5,56 +5,64 @@ import isNaN from 'lodash/isNaN'
 import * as logger from '../logger'
 import * as Gun from './gun'
 
+import {
+  EncSpontPayment,
+  User,
+  ContentItem,
+  EmbeddedImage,
+  EmbeddedVideo,
+  Paragraph,
+  PostStatus,
+  Post,
+  WallPage,
+  Follow,
+  Wall,
+} from './schema-types'
+
 export { Gun }
+export * from './schema-types'
 
 /**
- * @typedef {import('./schema-types').User} User
  * @typedef {import('./schema-types').PartialUser} PartialUser
- * @typedef {import('./schema-types').EmbeddedImage} EmbeddedImage
- * @typedef {import('./schema-types').EmbeddedVideo} EmbeddedVideo
- * @typedef {import('./schema-types').ContentItem} ContentItem
- * @typedef {import('./schema-types').Paragraph} Paragraph
- * @typedef {import('./schema-types').PostStatus} PostStatus
- * @typedef {import('./schema-types').Post} Post
- * @typedef {import('./schema-types').WallPage} WallPage
- * @typedef {import('./schema-types').Wall} Wall
  */
 
-/**
- * @typedef {object} HandshakeRequest
- * @prop {string} from Public key of the requestor.
- * @prop {string} response Encrypted string where, if the recipient accepts the
- * request, his outgoing feed id will be put. Before that the sender's outgoing
- * feed ID will be placed here, encrypted so only the recipient can access it.
- * @prop {number} timestamp Unix time.
- */
+export interface HandshakeRequest {
+  /**
+   * Public key of the requestor.
+   */
+  from: string
+  /**
+   * Encrypted string where, if the recipient accepts the request, his outgoing
+   * feed id will be put. Before that the sender's outgoing feed ID will be
+   * placed here, encrypted so only the recipient can access it.
+   */
+  response: string
+  /**
+   * Unix time.
+   */
+  timestamp: number
+}
 
-/**
- * @typedef {object} Message
- * @prop {string} body
- * @prop {number} timestamp
- */
+export interface Message {
+  body: string
+  timestamp: number
+}
 
-/**
- * @typedef {object} ChatMessage
- * @prop {string} body
- * @prop {string} id
- * @prop {boolean} outgoing True if the message is an outgoing message,
- * otherwise it is an incoming message.
- * @prop {number} timestamp
- */
+export interface ChatMessage {
+  body: string
+  id: string
+  /**
+   * True if the message is an outgoing message, otherwise it is an incoming
+   * message.
+   */
+  outgoing: boolean
+  timestamp: number
+}
 
-/**
- * @param {unknown} o
- * @returns {o is Record<string, any>}
- */
-export const isObj = (o) => typeof o === 'object' && o !== null
+export const isObj = (o: unknown): o is Record<string, unknown> =>
+  typeof o === 'object' && o !== null
 
-/**
- * @param {unknown} item
- * @returns {item is ChatMessage}
- */
-export const isChatMessage = (item) => {
+export const isChatMessage = (item: unknown): item is ChatMessage => {
   if (typeof item !== 'object') {
     return false
   }
@@ -63,7 +71,7 @@ export const isChatMessage = (item) => {
     return false
   }
 
-  const obj = /** @type {ChatMessage} */ (item)
+  const obj = item as ChatMessage
 
   if (typeof obj.body !== 'string') {
     return false
@@ -88,22 +96,31 @@ export const isChatMessage = (item) => {
  * A simpler representation of a conversation between two users than the
  * outgoing/incoming feed paradigm. It combines both the outgoing and incoming
  * messages into one data structure plus metada about the chat.
- * @typedef {object} Chat
- * @prop {string} id Chats now have IDs because of disconnect.
- * RecipientPublicKey will no longer be unique.
- * @prop {string|null} recipientAvatar Base64 encoded image.
- * @prop {string} recipientPublicKey A way to uniquely identify each chat.
- * @prop {ChatMessage[]} messages Sorted from most recent to least recent.
- * @prop {string|null} recipientDisplayName
- * @prop {boolean} didDisconnect True if the recipient performed a disconnect.
- * @prop {number|undefined|null} lastSeenApp
  */
+export interface Chat {
+  /**
+   * Chats now have IDs because of disconnect. RecipientPublicKey will no longer
+   * be unique.
+   */
+  id: string
+  /**
+   * Base64 encoded image.
+   */
+  recipientAvatar: string | null
+  recipientPublicKey: string
+  /**
+   * Sorted from most recent to least recent.
+   */
+  messages: ChatMessage[]
+  recipientDisplayName: string | null
+  /**
+   * True if the recipient performed a disconnect.
+   */
+  didDisconnect: boolean
+  lastSeenApp: number | undefined | null
+}
 
-/**
- * @param {unknown} item
- * @returns {item is Chat}
- */
-export const isChat = (item) => {
+export const isChat = (item: unknown): item is Chat => {
   if (typeof item !== 'object') {
     return false
   }
@@ -112,7 +129,7 @@ export const isChat = (item) => {
     return false
   }
 
-  const obj = /** @type {Chat} */ (item)
+  const obj = item as Chat
 
   if (typeof obj.recipientAvatar !== 'string' && obj.recipientAvatar !== null) {
     return false
@@ -141,34 +158,32 @@ export const isChat = (item) => {
   return obj.messages.every((msg) => isChatMessage(msg))
 }
 
-/**
- * @typedef {object} Outgoing
- * @prop {Record<string, Message>} messages
- * @prop {string} with Public key for whom the outgoing messages are intended.
- */
+export interface Outgoing {
+  messages: Record<string, Message>
+  /**
+   * Public key for whom the outgoing messages are intended.
+   */
+  with: string
+}
 
-/**
- * @typedef {object} PartialOutgoing
- * @prop {string} with (Encrypted) Public key for whom the outgoing messages are
- * intended.
- */
+export interface PartialOutgoing {
+  /**
+   * (Encrypted) Public key for whom the outgoing messages are intended.
+   */
+  with: string
+}
 
-/**
- * @typedef {object} StoredRequest
- * @prop {string} sentReqID
- * @prop {string} recipientPub
- * @prop {string} handshakeAddress
- * @prop {number} timestamp
- */
+export interface StoredRequest {
+  sentReqID: string
+  recipientPub: string
+  handshakeAddress: string
+  timestamp: number
+}
 
-/**
- * @param {unknown} item
- * @returns {item is StoredRequest}
- */
-export const isStoredRequest = (item) => {
+export const isStoredRequest = (item: unknown): item is StoredRequest => {
   if (typeof item !== 'object') return false
   if (item === null) return false
-  const obj = /** @type {StoredRequest} */ (item)
+  const obj = item as StoredRequest
   if (typeof obj.recipientPub !== 'string') return false
   if (typeof obj.handshakeAddress !== 'string') return false
   if (typeof obj.handshakeAddress !== 'string') return false
@@ -176,22 +191,22 @@ export const isStoredRequest = (item) => {
   return true
 }
 
-/**
- * @typedef {object} SimpleSentRequest
- * @prop {string} id
- * @prop {string|null} recipientAvatar
- * @prop {boolean} recipientChangedRequestAddress True if the recipient changed
- * the request node address and therefore can't no longer accept the request.
- * @prop {string|null} recipientDisplayName
- * @prop {string} recipientPublicKey Fallback for when user has no display name.
- * @prop {number} timestamp
- */
+export interface SimpleSentRequest {
+  id: string
+  recipientAvatar: string | null
+  /**
+   * True if the recipient changed the request node address and therefore can't
+   * no longer accept the request.
+   */
+  recipientChangedRequestAddress: boolean
+  recipientDisplayName: string | null
+  recipientPublicKey: string
+  timestamp: number
+}
 
-/**
- * @param {unknown} item
- * @returns {item is SimpleSentRequest}
- */
-export const isSimpleSentRequest = (item) => {
+export const isSimpleSentRequest = (
+  item: unknown,
+): item is SimpleSentRequest => {
   if (typeof item !== 'object') {
     return false
   }
@@ -200,7 +215,7 @@ export const isSimpleSentRequest = (item) => {
     return false
   }
 
-  const obj = /** @type {SimpleSentRequest} */ (item)
+  const obj = item as SimpleSentRequest
 
   if (typeof obj.id !== 'string') {
     return false
@@ -232,20 +247,17 @@ export const isSimpleSentRequest = (item) => {
   return true
 }
 
-/**
- * @typedef {object} SimpleReceivedRequest
- * @prop {string} id
- * @prop {string|null} requestorAvatar
- * @prop {string|null} requestorDisplayName
- * @prop {string} requestorPK
- * @prop {number} timestamp
- */
+export interface SimpleReceivedRequest {
+  id: string
+  requestorAvatar: string | null
+  requestorDisplayName: string | null
+  requestorPK: string
+  timestamp: number
+}
 
-/**
- * @param {unknown} item
- * @returns {item is SimpleReceivedRequest}
- */
-export const isSimpleReceivedRequest = (item) => {
+export const isSimpleReceivedRequest = (
+  item: unknown,
+): item is SimpleReceivedRequest => {
   if (typeof item !== 'object') {
     return false
   }
@@ -254,7 +266,7 @@ export const isSimpleReceivedRequest = (item) => {
     return false
   }
 
-  const obj = /** @type {SimpleReceivedRequest} */ (item)
+  const obj = item as SimpleReceivedRequest
 
   if (typeof obj.id !== 'string') {
     return false
@@ -282,11 +294,7 @@ export const isSimpleReceivedRequest = (item) => {
   return true
 }
 
-/**
- * @param {unknown} item
- * @returns {item is HandshakeRequest}
- */
-export const isHandshakeRequest = (item) => {
+export const isHandshakeRequest = (item: unknown): item is HandshakeRequest => {
   if (typeof item !== 'object') {
     return false
   }
@@ -295,7 +303,7 @@ export const isHandshakeRequest = (item) => {
     return false
   }
 
-  const obj = /** @type {HandshakeRequest} */ (item)
+  const obj = item as HandshakeRequest
 
   if (typeof obj.from !== 'string') {
     return false
@@ -316,7 +324,7 @@ export const isHandshakeRequest = (item) => {
  * @param {unknown} item
  * @returns {item is Message}
  */
-export const isMessage = (item) => {
+export const isMessage = (item: unknown): item is Message => {
   if (typeof item !== 'object') {
     return false
   }
@@ -325,16 +333,12 @@ export const isMessage = (item) => {
     return false
   }
 
-  const obj = /** @type {Message} */ (item)
+  const obj = item as Message
 
   return typeof obj.body === 'string' && typeof obj.timestamp === 'number'
 }
 
-/**
- * @param {unknown} item
- * @returns {item is PartialOutgoing}
- */
-export const isPartialOutgoing = (item) => {
+export const isPartialOutgoing = (item: unknown): item is PartialOutgoing => {
   if (typeof item !== 'object') {
     return false
   }
@@ -343,16 +347,12 @@ export const isPartialOutgoing = (item) => {
     return false
   }
 
-  const obj = /** @type {PartialOutgoing} */ (item)
+  const obj = item as PartialOutgoing
 
   return typeof obj.with === 'string'
 }
 
-/**
- * @param {unknown} item
- * @returns {item is Outgoing}
- */
-export const isOutgoing = (item) => {
+export const isOutgoing = (item: unknown): item is Outgoing => {
   if (typeof item !== 'object') {
     return false
   }
@@ -361,7 +361,7 @@ export const isOutgoing = (item) => {
     return false
   }
 
-  const obj = /** @type {Outgoing} */ (item)
+  const obj = item as Outgoing
 
   const messagesAreMessages = Object.values(obj.messages).every((msg) =>
     isMessage(msg),
@@ -370,19 +370,23 @@ export const isOutgoing = (item) => {
   return typeof obj.with === 'string' && messagesAreMessages
 }
 
-/**
- * @typedef {object} Order
- * @prop {string} from Public key of sender.
- * @prop {string} amount Encrypted
- * @prop {string} memo Encrypted
- * @prop {number} timestamp
- */
+export interface Order {
+  /**
+   * Public key of sender.
+   */
+  from: string
+  /**
+   * Encrypted
+   */
+  amount: string
+  /**
+   * Encrypted
+   */
+  memo: string
+  timestamp: number
+}
 
-/**
- * @param {unknown} item
- * @returns {item is Order}
- */
-export const isOrder = (item) => {
+export const isOrder = (item: unknown): item is Order => {
   if (typeof item !== 'object') {
     return false
   }
@@ -391,7 +395,7 @@ export const isOrder = (item) => {
     return false
   }
 
-  const obj = /** @type {Order} */ (item)
+  const obj = item as Order
 
   if (typeof obj.amount !== 'string') {
     return false
@@ -408,17 +412,12 @@ export const isOrder = (item) => {
   return typeof obj.timestamp === 'number'
 }
 
-/**
- * @typedef {object} OrderResponse
- * @prop {'err'|'invoice'} type
- * @prop {string} response
- */
+export interface OrderResponse {
+  type: 'err' | 'invoice'
+  response: string
+}
 
-/**
- * @param {unknown} o
- * @returns {o is OrderResponse}
- */
-export const isOrderResponse = (o) => {
+export const isOrderResponse = (o: unknown): o is OrderResponse => {
   if (typeof o !== 'object') {
     return false
   }
@@ -427,7 +426,7 @@ export const isOrderResponse = (o) => {
     return false
   }
 
-  const obj = /** @type {OrderResponse} */ (o)
+  const obj = o as OrderResponse
 
   if (typeof obj.response !== 'string') {
     return false
@@ -436,33 +435,21 @@ export const isOrderResponse = (o) => {
   return obj.type === 'err' || obj.type === 'invoice'
 }
 
-/**
- * @typedef {import('./schema-types').EncSpontPayment} EncSpontPayment
- */
-
 const ENC_SPONT_PAYMENT_PREFIX = '$$__SHOCKWALLET__SPONT__PAYMENT'
 
-/**
- * @param {string} s
- * @returns {s is EncSpontPayment}
- */
-export const isEncodedSpontPayment = (s) =>
+export const isEncodedSpontPayment = (s: string): s is EncSpontPayment =>
   s.startsWith(ENC_SPONT_PAYMENT_PREFIX)
 
-/**
- * @typedef {object} SpontaneousPayment
- * @prop {number} amt
- * @prop {string} memo
- * @prop {string} preimage
- */
+export interface SpontaneousPayment {
+  amt: number
+  memo: string
+  preimage: string
+}
 
 /**
- *
- * @param {EncSpontPayment} sp
  * @throws {Error} If decoding fails.
- * @returns {SpontaneousPayment}
  */
-export const decodeSpontPayment = (sp) => {
+export const decodeSpontPayment = (sp: EncSpontPayment): SpontaneousPayment => {
   try {
     const [preimage, amtStr, memo] = sp
       .slice((ENC_SPONT_PAYMENT_PREFIX + '__').length)
@@ -508,13 +495,11 @@ export const decodeSpontPayment = (sp) => {
   }
 }
 
-/**
- * @param {number} amt
- * @param {string} memo
- * @param {string} preimage
- * @returns {EncSpontPayment}
- */
-export const encodeSpontaneousPayment = (amt, memo, preimage) => {
+export const encodeSpontaneousPayment = (
+  amt: number,
+  memo: string,
+  preimage: string,
+): EncSpontPayment => {
   if (typeof amt !== 'number') {
     throw new TypeError('amt must be a number')
   }
@@ -548,18 +533,11 @@ export const encodeSpontaneousPayment = (amt, memo, preimage) => {
   throw new Error('isEncodedSpontPayment(enc) false')
 }
 
-/**
- * @param {unknown} o
- * @returns {o is User}
- */
-export const isUser = (o) => {
-  const obj = /** @type {User} */ (o)
+export const isUser = (o: unknown): o is User => {
+  const obj = o as User
 
-  /**
-   * @param {any} str
-   * @returns {boolean}
-   */
-  const isNullablestring = (str) => str === 'string' || str === null
+  const isNullablestring = (str: unknown): boolean =>
+    str === 'string' || str === null
 
   return (
     isNullablestring(obj.avatar) &&
@@ -571,11 +549,9 @@ export const isUser = (o) => {
   )
 }
 
-/**
- * @param {ContentItem} contentItem
- * @returns {contentItem is EmbeddedImage}
- */
-export const isEmbeddedImage = (contentItem) => {
+export const isEmbeddedImage = (
+  contentItem: ContentItem,
+): contentItem is EmbeddedImage => {
   if (!isObj(contentItem)) {
     return false
   }
@@ -599,11 +575,9 @@ export const isEmbeddedImage = (contentItem) => {
   return true
 }
 
-/**
- * @param {ContentItem} contentItem
- * @returns {contentItem is EmbeddedVideo}
- */
-export const isEmbeddedVideo = (contentItem) => {
+export const isEmbeddedVideo = (
+  contentItem: ContentItem,
+): contentItem is EmbeddedVideo => {
   if (!isObj(contentItem)) {
     return false
   }
@@ -629,10 +603,12 @@ export const isEmbeddedVideo = (contentItem) => {
 
 /**
  *
- * @param {ContentItem} contentItem
- * @returns {contentItem is Paragraph}
+ * @param {} contentItem
+ * @returns {}
  */
-export const isParagraph = (contentItem) => {
+export const isParagraph = (
+  contentItem: ContentItem,
+): contentItem is Paragraph => {
   if (!isObj(contentItem)) {
     return false
   }
@@ -648,32 +624,22 @@ export const isParagraph = (contentItem) => {
   return true
 }
 
-/**
- * @param {ContentItem} contentItem
- * @returns {contentItem is ContentItem}
- */
-export const isContentItem = (contentItem) =>
+export const isContentItem = (
+  contentItem: ContentItem,
+): contentItem is ContentItem =>
   isEmbeddedVideo(contentItem) ||
   isEmbeddedImage(contentItem) ||
   isParagraph(contentItem)
 
-/**
- * @param {PostStatus} str
- * @returns {str is PostStatus}
- */
-export const isPostStatus = (str) =>
+export const isPostStatus = (str: PostStatus): str is PostStatus =>
   str === 'draft' || str === 'pending' || str === 'private' || str === 'publish'
 
-/**
- * @param {unknown} o
- * @returns {o is Post}
- */
-export const isPost = (o) => {
+export const isPost = (o: unknown): o is Post => {
   if (!isObj(o)) {
     return false
   }
 
-  const obj = /** @type {Post} */ (o)
+  const obj = (o as unknown) as Post
 
   return (
     typeof obj.id === 'string' &&
@@ -686,12 +652,8 @@ export const isPost = (o) => {
   )
 }
 
-/**
- * @param {unknown} o
- * @returns {o is WallPage}
- */
-export const isWallPage = (o) => {
-  const fp = /** @type {WallPage} */ (o)
+export const isWallPage = (o: unknown): o is WallPage => {
+  const fp = o as WallPage
 
   if (typeof fp.count !== 'number') {
     return false
@@ -704,16 +666,12 @@ export const isWallPage = (o) => {
   return Object.values(fp.posts).every((p) => isPost(p))
 }
 
-/**
- * @param {unknown} o
- * @returns {o is Wall}
- */
-export const isWall = (o) => {
+export const isWall = (o: unknown): o is Wall => {
   if (!isObj(o)) {
     return false
   }
 
-  const f = /** @type {Wall} */ (o)
+  const f = /** @type {Wall} */ o
 
   if (typeof f.numOfPages !== 'number') {
     return false
@@ -722,21 +680,12 @@ export const isWall = (o) => {
   return Object.values(f.numOfPages).every((fp) => isWallPage(fp))
 }
 
-/**
- * @typedef {import('./schema-types').Follow} Follow
- */
-
-/**
- *
- * @param {unknown} o
- * @returns {o is Follow}
- */
-export const isFollow = (o) => {
+export const isFollow = (o: unknown): o is Follow => {
   if (!isObj(o)) {
     return false
   }
 
-  const f = /** @type {Follow} */ (o)
+  const f = (o as unknown) as Follow
 
   const statusIsOk = f.status === 'ok' || f.status === 'processing'
 
@@ -745,6 +694,4 @@ export const isFollow = (o) => {
   )
 }
 
-/**
- * @typedef {'MAX'|'MID'|'MIN'} FeeLevel
- */
+export type FeeLevel = 'MAX' | 'MID' | 'MIN'
