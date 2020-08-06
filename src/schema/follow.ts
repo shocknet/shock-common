@@ -1,5 +1,10 @@
+import { schema } from 'normalizr'
+
 import { isObj } from './misc'
 
+/**
+ * TODO: include full user object
+ */
 export interface Follow {
   user: string
   status: 'ok' | 'processing'
@@ -19,3 +24,11 @@ export const isFollow = (o: unknown): o is Follow => {
     statusIsOk && typeof f.user === 'string' && typeof f.private === 'boolean'
   )
 }
+
+export const Follow = new schema.Entity<Follow>(
+  'follows',
+  {},
+  {
+    idAttribute: 'user',
+  },
+)

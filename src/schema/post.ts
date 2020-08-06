@@ -1,3 +1,5 @@
+import { schema } from 'normalizr'
+
 import { User } from './user'
 import { isObj } from './misc'
 
@@ -162,3 +164,7 @@ export const isPost = (o: unknown): o is Post => {
     Object.values(obj.contentItems).every((ci) => isContentItem(ci))
   )
 }
+
+export const Post = new schema.Entity<Post>('posts', {
+  author: User,
+})

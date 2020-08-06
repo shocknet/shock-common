@@ -1,3 +1,5 @@
+import { schema } from 'normalizr'
+
 export interface HasPublicKey {
   publicKey: string
 }
@@ -29,3 +31,11 @@ export const isUser = (o: unknown): o is User => {
     typeof obj.publicKey === 'string'
   )
 }
+
+export const User = new schema.Entity<User>(
+  'users',
+  {},
+  {
+    idAttribute: 'publicKey',
+  },
+)
