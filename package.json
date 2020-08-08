@@ -20,7 +20,7 @@
     "post-compile-b": "cp-cli dist/index.d.ts dist/index.es.d.ts",
     "bundle": "parcel build dist/index.es.js --target node --out-file index.js",
     "build": "yarn clean && yarn compile && yarn post-compile-a && yarn post-compile-b && yarn bundle",
-    "test": "echo \"No test specified\""
+    "test": "jest"
   },
   "dependencies": {
     "immer": "^6.0.6",
@@ -31,6 +31,7 @@
     "uuid": "3.x.x"
   },
   "devDependencies": {
+    "@types/jest": "^26.0.9",
     "@types/lodash": "^4.14.150",
     "@types/uuid": "3.x.x",
     "@typescript-eslint/eslint-plugin": "^3.1.0",
@@ -39,12 +40,14 @@
     "eslint": "^7.1.0",
     "eslint-config-prettier": "^6.11.0",
     "husky": "^4.2.5",
+    "jest": "^26.2.2",
     "lint-staged": "^10.2.2",
     "np": "^6.2.3",
     "parcel-bundler": "^1.12.4",
     "prettier": "^2.0.5",
     "rimraf": "^3.0.2",
-    "typescript": "^3.9.2"
+    "ts-jest": "^26.1.4",
+    "typescript": "^3.9.7"
   },
   "lint-staged": {
     "*.{js,ts}": [
