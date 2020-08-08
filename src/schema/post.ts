@@ -1,4 +1,4 @@
-import { schema } from 'normalizr'
+import * as N from 'normalizr'
 
 import { User } from './user'
 import { isObj } from './misc'
@@ -165,6 +165,22 @@ export const isPost = (o: unknown): o is Post => {
   )
 }
 
-export const Post = new schema.Entity<Post>('posts', {
+export const Post = new N.schema.Entity<Post>('posts', {
   author: User,
 })
+
+type RelevantEntities = {
+  posts: Record<string, PostN>
+  users: Record<string, User>
+}
+
+/**
+ * @param posts
+ */
+export const normalizePosts = (posts: Post[]) =>
+  N.normalize<Post, RelevantEntities, string[]>(posts, [Post])
+
+export const denormalizePosts = (
+  postsIDs: string[],
+  relevantEntities: RelevantEntities,
+): Post[] => N.denormalize(postsIDs, [Post], relevantEntities) as Post[]
