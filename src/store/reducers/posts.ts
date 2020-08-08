@@ -1,18 +1,25 @@
-import { Reducer } from 'redux'
+import * as Redux from 'redux'
 
 import * as Schema from '../../schema'
 import * as Actions from '../actions'
 
-type State = Record<string, Schema.Post>
+export type State = Record<string, Schema.PostN>
 
-const reducer: Reducer<State, Actions.ShockAction> = (
-  state: State = {},
-  action: Actions.ShockAction,
+const reducer: Redux.Reducer<State, Actions.ShockAction> = (
+  state = {},
+  action,
 ) => {
   switch (action.type) {
-    case '': {
-      return state
+    case 'receivedFeed':
+    case 'receivedBackfeed': {
+      const normalized = Schema.normalizePosts(action.data.posts)
+
+      return {
+        ...state,
+        ...normalized.entities.posts,
+      }
     }
+
     default:
       return state
   }
