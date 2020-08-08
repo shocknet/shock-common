@@ -25,7 +25,6 @@ const fees = (state = INITIAL_STATE, action) => {
   }
   switch (action.type) {
     case 'fees/updateSelected': {
-      // @ts-expect-error
       const { data } = action
       if (data !== 'MIN' && data !== 'MID' && data !== 'MAX') {
         return state
@@ -36,7 +35,6 @@ const fees = (state = INITIAL_STATE, action) => {
       }
     }
     case 'fees/updateSource': {
-      // @ts-expect-error
       const { data } = action
       return {
         ...state,
