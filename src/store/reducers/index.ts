@@ -9,6 +9,7 @@ import posts from './posts'
 import requests from './requests'
 import users from './users'
 import wallet from './wallet'
+import feed from './feed'
 
 /**
  * To be passed to combineReducers() or similar.
@@ -25,6 +26,7 @@ export const reducersObj = {
   requests,
   users,
   wallet,
+  feed,
 }
 
 type ReducersObj = typeof reducersObj
