@@ -7,6 +7,8 @@ import * as Node from './node'
 import * as Requests from './requests'
 import * as Users from './users'
 import * as Wallet from './wallet'
+import * as Feed from './feed'
+import * as Posts from './posts'
 
 export type ShockAction =
   | Chat.ChatAction
@@ -18,11 +20,16 @@ export type ShockAction =
   | Requests.RequestsAction
   | Users.UsersAction
   | Wallet.WalletAction
+  | Feed.FeedAction
+  | Posts.PostsAction
 
 // export interface ShockAction {
 //   type: string
 //   data: any
 // }
+
+export * from './feed'
+export * from './posts'
 
 export {
   Chat,
