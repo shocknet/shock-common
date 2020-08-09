@@ -8,7 +8,7 @@ export type State = Record<string, Schema.PostN>
 const reducer: Redux.Reducer<State, Actions.ShockAction> = (
   state = {},
   action,
-) => {
+): State => {
   switch (action.type) {
     case 'receivedFeed':
     case 'receivedBackfeed': {
