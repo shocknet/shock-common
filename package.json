@@ -61,5 +61,9 @@
     "hooks": {
       "pre-commit": "yarn build && yarn lint-staged"
     }
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node"
   }
 }
