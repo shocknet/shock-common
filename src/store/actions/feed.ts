@@ -1,13 +1,16 @@
 import { Post } from '../../schema'
 
+export const GET_MORE_FEED = 'getMoreFeed'
+export const GET_MORE_BACKFEED = 'getMoreBackfeed'
+
 export const getMoreFeed = () =>
   ({
-    type: 'getMoreFeed',
+    type: GET_MORE_FEED,
   } as const)
 
 export const getMoreBackfeed = () =>
   ({
-    type: 'getMoreBackfeed',
+    type: GET_MORE_BACKFEED,
   } as const)
 
 export const receivedFeed = (posts: Post[], page: number, timestamp: number) =>
