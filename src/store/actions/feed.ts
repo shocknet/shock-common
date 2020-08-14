@@ -42,8 +42,17 @@ export const receivedBackfeed = (
     },
   } as const)
 
+export const viewportChanged = (newViewport: string[]) =>
+  ({
+    type: 'feed/viewportChanged',
+    data: {
+      newViewport,
+    },
+  } as const)
+
 export type FeedAction =
   | ReturnType<typeof getMoreFeed>
   | ReturnType<typeof getMoreBackfeed>
   | ReturnType<typeof receivedFeed>
   | ReturnType<typeof receivedBackfeed>
+  | ReturnType<typeof viewportChanged>
