@@ -2,6 +2,7 @@ import { all, call, select, put, debounce } from 'redux-saga/effects'
 
 import { feedPage, FeedPageRes } from '../api'
 import { State } from '../reducers'
+import * as Actions from '../actions'
 
 const selectLastFetchedPage = (state: State) => state.feed.lastFetchedPage
 const selectlatestViewedPostID = (state: State) => state.feed.latestViewedPostID
@@ -17,17 +18,10 @@ function* getMoreFeed() {
 
     const { posts } = feedPageRes
 
-    yield put({
-      type: 'receivedFeed',
-      data: {
-        posts,
-        page,
-        timestamp: Date.now(),
-      },
-    })
+    yield put(Actions.receivedFeed(posts, page, Date.now()))
   } catch (error) {
     console.log(error)
-    yield put({ type: 'GET_MORE_FEED' }) // retry
+    yield put({ type: Actions.GET_MORE_FEED }) // retry
   }
 }
 
@@ -42,27 +36,20 @@ function* getMoreBackfeed() {
       })
       const { posts } = feedPageRes
 
-      yield put({
-        type: 'receivedBackfeed',
-        data: {
-          posts,
-          timestamp: Date.now(),
-          page: 1,
-        },
-      })
+      yield put(Actions.receivedBackfeed(posts, 1, Date.now()))
     }
   } catch (error) {
     console.log(error)
-    yield put({ type: 'GET_MORE_BACKFEED' }) // retry
+    yield put({ type: Actions.GET_MORE_BACKFEED }) // retry
   }
 }
 
 function* watchFeedRequest() {
-  yield debounce(500, 'GET_MORE_FEED', getMoreFeed)
+  yield debounce(500, Actions.GET_MORE_FEED, getMoreFeed)
 }
 
 function* watchBackfeedRequest() {
-  yield debounce(500, 'GET_MORE_BACKFEED', getMoreBackfeed)
+  yield debounce(500, Actions.GET_MORE_BACKFEED, getMoreBackfeed)
 }
 
 function* startFeedWatchers() {
