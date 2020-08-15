@@ -20,7 +20,7 @@
     "post-compile-b": "cp-cli dist/index.d.ts dist/index.es.d.ts",
     "bundle": "parcel build dist/index.es.js --target node --out-file index.js",
     "build": "yarn clean && yarn compile && yarn post-compile-a && yarn post-compile-b && yarn bundle",
-    "test": "jest"
+    "test": "jest --pastWithNoTests"
   },
   "dependencies": {
     "immer": "^6.0.6",
