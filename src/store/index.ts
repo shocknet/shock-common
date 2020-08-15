@@ -85,6 +85,7 @@ export {
   State,
   ReducersObj,
   ShockStore,
+  reducersObj,
 }
 
 export * from './sagas'
