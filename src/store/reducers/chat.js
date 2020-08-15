@@ -23,7 +23,6 @@ const INITIAL_STATE = {
 const chat = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case ACTIONS.LOAD_CONTACTS: {
-      // @ts-expect-error
       const { data } = action
 
       return {
@@ -32,7 +31,6 @@ const chat = (state = INITIAL_STATE, action) => {
       }
     }
     case ACTIONS.LOAD_MESSAGES: {
-      // @ts-expect-error
       const { data } = action
 
       return {
@@ -41,7 +39,6 @@ const chat = (state = INITIAL_STATE, action) => {
       }
     }
     case ACTIONS.SELECT_CONTACT: {
-      // @ts-expect-error
       const { data } = action
 
       return {

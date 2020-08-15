@@ -28,11 +28,9 @@ const INITIAL_STATE = {
 const connection = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case 'encryption/loadKeys': {
-      // @ts-expect-error
       if (!action.data) {
         return state
       }
-      // @ts-expect-error
       const { devicePublicKey, APIPublicKey, sessionId } = action.data
       return {
         ...state,

@@ -4,6 +4,8 @@ import produce from 'immer'
 import * as Actions from '../actions'
 Actions.Chat // avoid unused error
 
+import * as Schema from '../../schema'
+
 /**
  * @typedef {import('../actions').ShockAction} ShockAction
  * @typedef {import('../../schema').User} User
@@ -100,6 +102,15 @@ const reducer = (state = INITIAL_STATE, action) => {
           }
         })
       })
+
+    case 'receivedFeed':
+    case 'receivedBackfeed': {
+      const normalized = Schema.normalizePosts(action.data.posts)
+
+      return produce(state, (draft) => {
+        Object.assign(draft, normalized.entities.users)
+      })
+    }
 
     default:
       return state

@@ -8,7 +8,7 @@ const {
  * @typedef {object} State
  * @prop {string} channelBalance
  * @prop {string} confirmedBalance
- * @prop {string|null} USDRate
+ * @prop {number|null} USDRate
  * @prop {string} totalBalance
  * @prop {string} pendingChannelBalance
  */
@@ -34,7 +34,6 @@ const wallet = (state = INITIAL_STATE, action) => {
         channelBalance,
         confirmedBalance,
         pendingChannelBalance,
-        // @ts-expect-error
       } = action.data
 
       const totalBalance = Big(confirmedBalance)
@@ -52,7 +51,6 @@ const wallet = (state = INITIAL_STATE, action) => {
     }
 
     case 'usdRate/loaded': {
-      // @ts-expect-error
       const { data } = action
 
       return {

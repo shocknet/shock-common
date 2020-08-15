@@ -55,7 +55,6 @@ const INITIAL_STATE = {
 const history = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case ACTIONS.LOAD_CHANNELS: {
-      // @ts-expect-error
       const { data } = action
       return {
         ...state,
@@ -65,21 +64,17 @@ const history = (state = INITIAL_STATE, action) => {
       }
     }
     case ACTIONS.LOAD_INVOICES: {
-      // @ts-expect-error
       const { data } = action
       return {
         ...state,
-        // @ts-ignore TODO
         invoices: data,
       }
     }
     case ACTIONS.LOAD_MORE_INVOICES: {
-      // @ts-expect-error
       const { data } = action
       return {
         ...state,
         invoices: {
-          // @ts-ignore TODO
           ...data,
           // @ts-expect-error
           content: [...state.invoices.content, ...data.content],
@@ -87,7 +82,6 @@ const history = (state = INITIAL_STATE, action) => {
       }
     }
     case ACTIONS.LOAD_PEERS: {
-      // @ts-expect-error
       const { data } = action
       return {
         ...state,
@@ -96,7 +90,6 @@ const history = (state = INITIAL_STATE, action) => {
       }
     }
     case ACTIONS.LOAD_PAYMENTS: {
-      // @ts-expect-error
       const { data } = action
       return {
         ...state,
@@ -105,7 +98,6 @@ const history = (state = INITIAL_STATE, action) => {
       }
     }
     case ACTIONS.LOAD_MORE_PAYMENTS: {
-      // @ts-expect-error
       const { data } = action
       return {
         ...state,
@@ -118,7 +110,6 @@ const history = (state = INITIAL_STATE, action) => {
       }
     }
     case ACTIONS.LOAD_TRANSACTIONS: {
-      // @ts-expect-error
       const { data } = action
       return {
         ...state,
@@ -127,12 +118,10 @@ const history = (state = INITIAL_STATE, action) => {
       }
     }
     case ACTIONS.LOAD_MORE_TRANSACTIONS: {
-      // @ts-expect-error
       const { data } = action
       return {
         ...state,
         transactions: {
-          // @ts-ignore TODO
           ...data,
           // @ts-expect-error
           content: [...state.transactions.content, ...data.content],
@@ -143,7 +132,6 @@ const history = (state = INITIAL_STATE, action) => {
       /**
        * @param {API.Wallet.Invoice | API.Wallet.Payment | API.Wallet.Transaction} unifiedTransaction
        */
-      // @ts-expect-error
       const { data } = action
 
       return {
@@ -153,7 +141,6 @@ const history = (state = INITIAL_STATE, action) => {
       }
     }
     case ACTIONS.LOAD_NEW_RECENT_INVOICE: {
-      // @ts-expect-error
       const { data } = action
 
       return {
@@ -236,7 +223,6 @@ const history = (state = INITIAL_STATE, action) => {
       }
     }
     case ACTIONS.LOAD_NEW_RECENT_TRANSACTION: {
-      // @ts-expect-error
       const { data } = action
 
       return {
@@ -246,7 +232,6 @@ const history = (state = INITIAL_STATE, action) => {
       }
     }
     case ACTIONS.LOAD_RECENT_INVOICES: {
-      // @ts-expect-error
       const { data } = action
 
       return {

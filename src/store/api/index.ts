@@ -3,3 +3,5 @@ import * as Misc from './misc'
 import * as Wallet from './wallet'
 
 export { Events, Misc, Wallet, setEvents, EventProviderMap }
+
+export * from './feed'
