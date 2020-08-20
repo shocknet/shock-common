@@ -33,7 +33,7 @@ export interface SpontaneousPayment {
  */
 export const decodeSpontPayment = (sp: EncSpontPayment): SpontaneousPayment => {
   try {
-    const [preimage, amtStr, memo] = sp
+    const [amtStr, memo, preimage ] = sp
       .slice((ENC_SPONT_PAYMENT_PREFIX + '__').length)
       .split('__')
 
