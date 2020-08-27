@@ -591,62 +591,62 @@ export const addInvoice = async (request) => {
  * @prop {string} txid The transaction ID of the transaction.
  */
 
-/**
- * Resolves to the ID of the newly-created transaction.
- * @param {PartialSendCoinsRequest} params
- * @throws {Error}
- * @returns {Promise<string>}
- */
-export const sendCoins = async (params) => {
-  const token = await getToken()
-  if (typeof token !== 'string') {
-    throw new TypeError(NO_CACHED_TOKEN)
-  }
+// /**
+//  * Resolves to the ID of the newly-created transaction.
+//  * @param {PartialSendCoinsRequest} params
+//  * @throws {Error}
+//  * @returns {Promise<string>}
+//  */
+// export const sendCoins = async (params) => {
+//   const token = await getToken()
+//   if (typeof token !== 'string') {
+//     throw new TypeError(NO_CACHED_TOKEN)
+//   }
 
-  const endpoint = `/api/lnd/sendcoins`
+//   const endpoint = `/api/lnd/sendcoins`
 
-  try {
-    const feesReq = await fetch(params.fees.feesSource)
-    const feesData = await feesReq.json()
-    let satXbyte = 0
-    switch (params.fees.feesLevel) {
-      case 'MAX': {
-        // TODO: Check for bad parsing
-        satXbyte = Number(feesData.fastestFee) + 1
-        break
-      }
-      case 'MID': {
-        satXbyte = feesData.halfHourFee
-        break
-      }
-      case 'MIN': {
-        satXbyte = feesData.hourFee
-        break
-      }
-      default: {
-        throw new Error('Unset sat_per_byte')
-      }
-    }
-    const request = {
-      addr: params.addr,
-      amount: params.amount,
-      send_all: params.send_all,
-      satPerByte: satXbyte,
-    }
-    const { data } = await Http.post(endpoint, request, {
-      headers: {
-        Authorization: token,
-      },
-    })
+//   try {
+//     const feesReq = await fetch(params.fees.feesSource)
+//     const feesData = await feesReq.json()
+//     let satXbyte = 0
+//     switch (params.fees.feesLevel) {
+//       case 'MAX': {
+//         // TODO: Check for bad parsing
+//         satXbyte = Number(feesData.fastestFee) + 1
+//         break
+//       }
+//       case 'MID': {
+//         satXbyte = feesData.halfHourFee
+//         break
+//       }
+//       case 'MIN': {
+//         satXbyte = feesData.hourFee
+//         break
+//       }
+//       default: {
+//         throw new Error('Unset sat_per_byte')
+//       }
+//     }
+//     const request = {
+//       addr: params.addr,
+//       amount: params.amount,
+//       send_all: params.send_all,
+//       satPerByte: satXbyte,
+//     }
+//     const { data } = await Http.post(endpoint, request, {
+//       headers: {
+//         Authorization: token,
+//       },
+//     })
 
-    return data
-  } catch (err) {
-    const { response } = err
-    throw new Error(
-      response.data.errorMessage || response.data.message || 'Unknown error.',
-    )
-  }
-}
+//     return data
+//   } catch (err) {
+//     const { response } = err
+//     throw new Error(
+//       response.data.errorMessage || response.data.message || 'Unknown error.',
+//     )
+//   }
+// }
 
 /**
  * https://api.lightning.community/#grpc-request-sendrequest

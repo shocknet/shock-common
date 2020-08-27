@@ -13,7 +13,7 @@
     "rootDir": "./src" /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */,
     "removeComments": false /* Do not emit comments to output. */,
     "noEmit": false /* Do not emit outputs. */,
-
+    "lib": [],
     "strict": true /* Enable all strict type-checking options. */,
     "noImplicitAny": true /* Raise error on expressions and declarations with an implied 'any' type. */,
     "strictNullChecks": true /* Enable strict null checks. */,

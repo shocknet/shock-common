@@ -37,8 +37,8 @@ export const isInvoiceWhenAdded = (o: unknown): o is InvoiceWhenAdded => {
 }
 
 export interface Feature {
-  is_known: true
-  is_required: false
+  is_known: boolean
+  is_required: boolean
   name: string
 }
 
@@ -50,7 +50,7 @@ export const isFeature = (o: unknown): o is Feature => {
   return (
     typeof f.is_known === 'boolean' &&
     typeof f.is_required === 'boolean' &&
-    typeof name === 'string'
+    typeof f.name === 'string'
   )
 }
 
