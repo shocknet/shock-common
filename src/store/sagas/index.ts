@@ -1,5 +1,6 @@
 import { all, call, select, put, debounce } from 'redux-saga/effects'
 
+import * as Logger from '../../logger'
 import { feedPage, FeedPageRes } from '../api'
 import { State } from '../reducers'
 import * as Actions from '../actions'
@@ -20,7 +21,7 @@ function* getMoreFeed() {
 
     yield put(Actions.receivedFeed(posts, page, Date.now()))
   } catch (error) {
-    console.log(error)
+    Logger.error(error)
     yield put({ type: Actions.GET_MORE_FEED }) // retry
   }
 }
@@ -39,7 +40,7 @@ function* getMoreBackfeed() {
       yield put(Actions.receivedBackfeed(posts, 1, Date.now()))
     }
   } catch (error) {
-    console.log(error)
+    Logger.error(error)
     yield put({ type: Actions.GET_MORE_BACKFEED }) // retry
   }
 }
