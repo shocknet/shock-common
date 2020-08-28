@@ -26,8 +26,6 @@ const reducer = (state = INITIAL_STATE, action: ShockAction): State => {
   const { currentFeed } = state
   const currentPostsIncDups = flattenDeep(currentFeed)
 
-  console.log(action.type)
-
   if (action.type === 'receivedBackfeed') {
     const {
       posts: newPostsRaw,
@@ -62,9 +60,6 @@ const reducer = (state = INITIAL_STATE, action: ShockAction): State => {
 
     if (lastFromBackfeed === existingFirst) {
       // backfeed fetch was successful
-
-      console.log(`newPostsPage: ${newPostsPage}`)
-      console.log(`state.lastFetchedPage: ${state.lastFetchedPage}`)
 
       return {
         ...state,
