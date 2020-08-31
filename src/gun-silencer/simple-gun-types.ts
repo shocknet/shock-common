@@ -24,7 +24,13 @@ interface OpenListenerDataObj {
   [k: string]: OpenListenerData
 }
 
-export type Listener = (data: ListenerData, key: string) => void
+/**
+ * @template T Allows customizying the expected data for the listener.
+ */
+export type Listener<T extends ListenerData = ListenerData> = (
+  data: T,
+  key: string,
+) => void
 export type Callback = (ack: Ack) => void
 
 export interface Soul {
@@ -33,7 +39,13 @@ export interface Soul {
 }
 
 export type OpenListenerData = Primitive | null | OpenListenerDataObj
-export type OpenListener = (data: OpenListenerData, key: string) => void
+/**
+ * @template T Allows customizying the expected data for the listener.
+ */
+export type OpenListener<T extends OpenListenerData = OpenListenerData> = (
+  data: OpenListenerData,
+  key: string,
+) => void
 
 export interface GUNNodeBase {
   _: Soul
@@ -41,10 +53,10 @@ export interface GUNNodeBase {
   map(): GUNNode
 
   on(this: GUNNode, cb: Listener): void
-  once(this: GUNNode, cb?: Listener): GUNNode
+  once(this: GUNNode, cb?: Listener, opts?: { wait: number }): GUNNode
 
   open(this: GUNNode, cb?: OpenListener): GUNNode
-  load(this: GUNNode, cb?: OpenListener): GUNNode
+  load(this: GUNNode, cb?: OpenListener, opts?: { wait: number }): GUNNode
 
   off(): void
   user(): UserGUNNode
