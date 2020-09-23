@@ -20,6 +20,7 @@ export interface InvoiceWhenAdded {
   add_index: string
   payment_request: string
   r_hash: Hash
+  liquidityCheck: boolean
 }
 
 export const isInvoiceWhenAdded = (o: unknown): o is InvoiceWhenAdded => {
