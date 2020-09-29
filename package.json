@@ -33,7 +33,7 @@
   },
   "devDependencies": {
     "@types/jest": "^26.0.9",
-    "@types/lodash": "^4.14.150",
+    "@types/lodash": "^4.14.161",
     "@types/random": "^2.1.1",
     "@types/uuid": "3.x.x",
     "@typescript-eslint/eslint-plugin": "^3.1.0",
