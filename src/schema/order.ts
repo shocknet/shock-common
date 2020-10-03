@@ -15,6 +15,10 @@ export interface Order {
   memo: string
   timestamp: number
   targetType: OrderTargetType
+
+  /** Fields for "post" TargetType */
+  postID?: string
+  postPage?: number
 }
 
 export const isOrder = (item: unknown): item is Order => {
