@@ -11,10 +11,10 @@ export interface EmbeddedVideo {
   width: string
 
   height: string
-  
-  isPreview:boolean
-  
-  isPrivate:boolean
+
+  isPreview: boolean
+
+  isPrivate: boolean
 }
 
 export interface EmbeddedImage {
@@ -25,10 +25,10 @@ export interface EmbeddedImage {
   width: string
 
   height: string
-  
-  isPreview:boolean
-  
-  isPrivate:boolean
+
+  isPreview: boolean
+
+  isPrivate: boolean
 }
 
 export interface Paragraph {
