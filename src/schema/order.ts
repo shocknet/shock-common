@@ -1,4 +1,7 @@
-export type OrderTargetType = "user" | "post"
+export type OrderTargetType = 'user' | 'post'
+
+export const isOrderTargetType = (str: string) =>
+  str === 'user' || str === 'post'
 
 export interface Order {
   /**
@@ -41,6 +44,18 @@ export const isOrder = (item: unknown): item is Order => {
   }
 
   if (typeof obj.memo !== 'string') {
+    return false
+  }
+
+  if (!isOrderTargetType(obj.targetType)) {
+    return false
+  }
+
+  if (typeof obj.postID !== 'undefined' && typeof obj.postID !== 'string') {
+    return false
+  }
+
+  if (typeof obj.postPage !== 'undefined' && typeof obj.postPage !== 'number') {
     return false
   }
 
