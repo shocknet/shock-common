@@ -1,3 +1,5 @@
+export type OrderTargetType = "user" | "post"
+
 export interface Order {
   /**
    * Public key of sender.
@@ -12,6 +14,7 @@ export interface Order {
    */
   memo: string
   timestamp: number
+  targetType: OrderTargetType
 }
 
 export const isOrder = (item: unknown): item is Order => {
