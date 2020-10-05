@@ -12,7 +12,7 @@ export interface ChainTransaction {
   /**
    * The number of confirmations
    */
-  num_confirmations: string
+  num_confirmations: number
 
   /**
    * The hash of the block this transaction was included in
@@ -22,7 +22,7 @@ export interface ChainTransaction {
   /**
    * The height of the block this transaction was included in
    */
-  block_height: string
+  block_height: number
 
   /**
    * Timestamp of this transaction
