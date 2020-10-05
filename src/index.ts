@@ -8,3 +8,4 @@ import * as Store from './store'
 export { Logger, Schema, Constants, Utils, APISchema, Store }
 
 export * from './utils'
+export * from './api-schema'
