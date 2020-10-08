@@ -94,24 +94,24 @@ export interface ListInvoicesReq {
    *If set, only invoices that are not settled and not canceled will be returned
    *in the response.
    */
-  pending_only: boolean
+  pending_only?: boolean
 
   /**
    *The index of an invoice that will be used as either the start or end of a
    *query to determine which invoices should be returned in the response.
    */
-  index_offset: number
+  index_offset?: number
 
   /**
    * The max number of invoices to return in the response to this query.
    */
-  num_max_invoices: number
+  num_max_invoices?: number
 
   /**
    *If set, the invoices returned will result from seeking backwards from the
    *specified index offset. This can be used to paginate backwards.
    */
-  reversed: boolean
+  reversed?: boolean
 }
 
 export interface ListInvoicesResBase {
@@ -157,7 +157,7 @@ export interface ListPaymentsReq {
    * field is set to true. This flag doesn't change the meaning of the indices,
    * which are tied to individual payments.
    */
-  include_incomplete: boolean
+  include_incomplete?: boolean
 
   /**
    * The index of a payment that will be used as either the start or end of a
@@ -166,19 +166,19 @@ export interface ListPaymentsReq {
    * will start with the oldest payment when paginating forwards, or will end
    * with the most recent payment when paginating backwards.
    */
-  index_offset: number
+  index_offset?: number
 
   /**
    * The maximal number of payments returned in the response to this query.
    */
-  max_payments: number
+  max_payments?: number
 
   /**
    * If set, the payments returned will result from seeking backwards from the
    * specified index offset. This can be used to paginate backwards. The order
    * of the returned payments is always oldest first (ascending index order).
    */
-  reversed: boolean
+  reversed?: boolean
 }
 
 export interface ListPaymentsResBase {
@@ -221,7 +221,7 @@ export interface GetTransactionsRequest {
    * The height from which to list transactions, inclusive. If this value is
    * greater than end_height, transactions will be read in reverse.
    */
-  start_height: number
+  start_height?: number
 
   /**
    * The height until which to list transactions, inclusive. To include
@@ -230,7 +230,7 @@ export interface GetTransactionsRequest {
    * transactions. If no end_height is provided, the call will default to this
    * option.
    */
-  end_height: number
+  end_height?: number
 }
 
 export interface TransactionDetails {
