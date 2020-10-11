@@ -70,15 +70,7 @@ export const isChainTransaction = (o: unknown): o is ChainTransaction => {
     return false
   }
 
-  if (typeof tx_hash !== 'string') {
-    return false
-  }
-
   if (typeof amount !== 'string') {
-    return false
-  }
-
-  if (typeof num_confirmations !== 'number') {
     return false
   }
 
@@ -90,6 +82,26 @@ export const isChainTransaction = (o: unknown): o is ChainTransaction => {
     return false
   }
 
+  if (!Array.isArray(dest_addresses)) {
+    return false
+  }
+
+  if (!dest_addresses.every((da) => typeof da === 'string')) {
+    return false
+  }
+
+  if (typeof label !== 'string') {
+    return false
+  }
+
+  if (typeof num_confirmations !== 'number') {
+    return false
+  }
+
+  if (typeof raw_tx_hex !== 'string') {
+    return false
+  }
+
   if (typeof time_stamp !== 'string') {
     return false
   }
@@ -98,19 +110,7 @@ export const isChainTransaction = (o: unknown): o is ChainTransaction => {
     return false
   }
 
-  if (!Array.isArray(dest_addresses)) {
-    return false
-  }
-
-  if (dest_addresses.every((da) => typeof da === 'string')) {
-    return false
-  }
-
-  if (typeof raw_tx_hex !== 'string') {
-    return false
-  }
-
-  if (typeof label !== 'string') {
+  if (typeof tx_hash !== 'string') {
     return false
   }
 
