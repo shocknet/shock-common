@@ -39,7 +39,7 @@ export interface ChainTransaction {
   /**
    * Addresses that received funds for this transaction
    */
-  dest_addresses: string
+  dest_addresses: string[]
 
   /**
    * The raw transaction hex.
@@ -98,7 +98,11 @@ export const isChainTransaction = (o: unknown): o is ChainTransaction => {
     return false
   }
 
-  if (typeof dest_addresses !== 'string') {
+  if (!Array.isArray(dest_addresses)) {
+    return false
+  }
+
+  if (dest_addresses.every((da) => typeof da === 'string')) {
     return false
   }
 
