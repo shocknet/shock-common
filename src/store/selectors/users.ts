@@ -1,14 +1,5 @@
-import { User } from '../../schema'
+import { User, createEmptyUser } from '../../schema'
 import { State } from '../reducers'
-
-const createEmptyUser = (publicKey: string): User => ({
-  avatar: null,
-  bio: null,
-  displayName: null,
-  lastSeenApp: 0,
-  lastSeenNode: 0,
-  publicKey,
-})
 
 export const selectAllUsers = (state: State) => state.users
 
