@@ -21,19 +21,6 @@ import * as Schema from '../../schema'
 const INITIAL_STATE = {}
 
 /**
- * @param {string} publicKey
- * @returns {User}
- */
-const createEmptyUser = (publicKey) => ({
-  avatar: null,
-  bio: null,
-  displayName: null,
-  lastSeenApp: 0,
-  lastSeenNode: 0,
-  publicKey,
-})
-
-/**
  * @param {State} state
  * @param {Actions.ShockAction} action
  * @returns {State}
@@ -50,7 +37,7 @@ const reducer = (state = INITIAL_STATE, action) => {
           const { publicKey: pk } = partialUser
 
           draft[pk] = {
-            ...createEmptyUser(pk),
+            ...Schema.createEmptyUser(pk),
             ...(draft[pk] || {}),
             ...partialUser,
           }
@@ -64,7 +51,7 @@ const reducer = (state = INITIAL_STATE, action) => {
           const { recipientPublicKey: pk } = chat
 
           draft[pk] = {
-            ...createEmptyUser(pk),
+            ...Schema.createEmptyUser(pk),
             ...(draft[pk] || {}),
             avatar: chat.recipientAvatar,
             displayName: chat.recipientDisplayName,
@@ -80,7 +67,7 @@ const reducer = (state = INITIAL_STATE, action) => {
           const { pk } = receivedRequest
 
           draft[pk] = {
-            ...createEmptyUser(pk),
+            ...Schema.createEmptyUser(pk),
             ...(draft[pk] || {}),
             avatar: receivedRequest.avatar,
             displayName: receivedRequest.displayName,
@@ -95,7 +82,7 @@ const reducer = (state = INITIAL_STATE, action) => {
           const { pk } = sentRequest
 
           draft[pk] = {
-            ...createEmptyUser(pk),
+            ...Schema.createEmptyUser(pk),
             ...(draft[pk] || {}),
             avatar: sentRequest.avatar,
             displayName: sentRequest.displayName,
