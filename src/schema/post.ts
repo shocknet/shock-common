@@ -41,9 +41,10 @@ export type ContentItem = EmbeddedImage | EmbeddedVideo | Paragraph
 
 export type PostStatus = 'draft' | 'publish' | 'private' | 'pending'
 
-export interface PostBase {
-  id: string
-
+/**
+ * Post as fetched from gun.
+ */
+export interface RawPost {
   /**
    * Unix timestamp.
    */
@@ -64,9 +65,10 @@ export interface PostBase {
   contentItems: Record<string, ContentItem>
 }
 
-/**
- * Post as seen by its author.
- */
+export interface PostBase extends RawPost {
+  id: string
+}
+
 export interface Post extends PostBase {
   author: User
 }
