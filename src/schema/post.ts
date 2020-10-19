@@ -52,6 +52,7 @@ export interface RawPost {
 
   /**
    * Pending means it's being uploaded.
+   * @deprecated
    */
   status: PostStatus
 
@@ -63,6 +64,35 @@ export interface RawPost {
   tags: string
 
   contentItems: Record<string, ContentItem>
+}
+
+export const isRawPost = (o: unknown): o is RawPost => {
+  const rp = o as RawPost
+
+  if (!isObj(o)) {
+    return false
+  }
+
+  // we'll ignore status it's deprecated
+  const { contentItems, date, tags, title } = rp
+
+  if (!Object.values(contentItems).every((ci) => isContentItem(ci))) {
+    return false
+  }
+
+  if (typeof date !== 'number') {
+    return false
+  }
+
+  if (typeof tags !== 'string') {
+    return false
+  }
+
+  if (typeof title !== 'string') {
+    return false
+  }
+
+  return true
 }
 
 export interface PostBase extends RawPost {
