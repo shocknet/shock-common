@@ -76,6 +76,10 @@ export const isRawPost = (o: unknown): o is RawPost => {
   // we'll ignore status it's deprecated
   const { contentItems, date, tags, title } = rp
 
+  if (!isObj(contentItems)) {
+    return false
+  }
+
   if (!Object.values(contentItems).every((ci) => isContentItem(ci))) {
     return false
   }
