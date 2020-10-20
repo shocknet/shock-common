@@ -80,6 +80,10 @@ export const isRawPost = (o: unknown): o is RawPost => {
     return false
   }
 
+  if (Object.keys(contentItems).length < 1) {
+    return false
+  }
+
   if (!Object.values(contentItems).every((ci) => isContentItem(ci))) {
     return false
   }
