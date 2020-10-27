@@ -11,6 +11,7 @@ export interface UserBase {
   header: string | null
   lastSeenApp: number
   lastSeenNode: number
+  pinnedPost: string | null
 }
 
 export type User = HasPublicKey & UserBase
@@ -30,7 +31,8 @@ export const isUser = (o: unknown): o is User => {
     isNullablestring(obj.header) &&
     typeof obj.lastSeenApp === 'number' &&
     typeof obj.lastSeenNode === 'number' &&
-    typeof obj.publicKey === 'string'
+    typeof obj.publicKey === 'string' &&
+    isNullablestring(obj.pinnedPost)
   )
 }
 
@@ -50,4 +52,5 @@ export const createEmptyUser = (publicKey: string): User => ({
   lastSeenApp: 0,
   lastSeenNode: 0,
   publicKey,
+  pinnedPost: null,
 })
