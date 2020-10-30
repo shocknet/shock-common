@@ -21,7 +21,6 @@ export interface Order {
 
   /** Fields for "post" TargetType */
   postID?: string
-  postPage?: number
 }
 
 export const isOrder = (item: unknown): item is Order => {
@@ -51,12 +50,10 @@ export const isOrder = (item: unknown): item is Order => {
     return false
   }
 
-  if (typeof obj.postID !== 'undefined' && typeof obj.postID !== 'string') {
-    return false
-  }
-
-  if (typeof obj.postPage !== 'undefined' && typeof obj.postPage !== 'number') {
-    return false
+  if (obj.targetType === 'post') {
+    if (typeof obj.postID !== 'string') {
+      return false
+    }
   }
 
   return typeof obj.timestamp === 'number'
