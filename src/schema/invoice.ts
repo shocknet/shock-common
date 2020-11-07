@@ -1,4 +1,4 @@
-import { isObj } from './misc'
+import { isObj, isPopulatedString } from './misc'
 
 export interface Hash {
   data: number[]
@@ -31,8 +31,8 @@ export const isInvoiceWhenAdded = (o: unknown): o is InvoiceWhenAdded => {
   const inv = (o as unknown) as InvoiceWhenAdded
 
   return (
-    typeof inv.add_index !== 'string' &&
-    typeof inv.payment_request === 'string' &&
+    isPopulatedString(inv.add_index) &&
+    isPopulatedString(inv.payment_request) &&
     isHash(inv.r_hash)
   )
 }
@@ -51,7 +51,7 @@ export const isFeature = (o: unknown): o is Feature => {
   return (
     typeof f.is_known === 'boolean' &&
     typeof f.is_required === 'boolean' &&
-    typeof f.name === 'string'
+    isPopulatedString(f.name)
   )
 }
 
@@ -106,7 +106,7 @@ export const isInvoiceWhenListed = (o: unknown): o is InvoiceWhenListed => {
     Array.isArray(i.htlcs) &&
     typeof i.is_keysend === 'boolean' &&
     typeof i.memo === 'string' &&
-    typeof i.payment_request === 'string' &&
+    isPopulatedString(i.payment_request) &&
     typeof i.private === 'boolean' &&
     isHash(i.r_hash) &&
     isHash(i.r_preimage) &&
@@ -115,8 +115,8 @@ export const isInvoiceWhenListed = (o: unknown): o is InvoiceWhenListed => {
     typeof i.settle_index === 'string' &&
     typeof i.settled === 'boolean' &&
     isInvoiceState(i.state) &&
-    typeof i.value === 'string' &&
-    typeof i.value_msat === 'string'
+    isPopulatedString(i.value) &&
+    isPopulatedString(i.value_msat)
   )
 }
 
