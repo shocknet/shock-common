@@ -1,4 +1,4 @@
-import { isObj } from './misc'
+import { isObj, isPopulatedString } from './misc'
 
 export type PaymentV2Status = 'UNKNOWN' | 'IN_FLIGHT' | 'SUCCEEDED' | 'FAILED'
 
@@ -64,40 +64,40 @@ export const isPaymentV2 = (o: unknown): o is PaymentV2 => {
     return false
   }
 
-  if (typeof p.creation_date !== 'string') {
+  if (!isPopulatedString(p.creation_date)) {
     return false
   }
-  if (typeof p.creation_time_ns !== 'string') {
+  if (!isPopulatedString(p.creation_time_ns)) {
     return false
   }
   if (!isPaymentV2FailureReason(p.failure_reason)) {
     return false
   }
-  if (typeof p.fee_msat !== 'string') {
+  if (!isPopulatedString(p.fee_msat)) {
     return false
   }
-  if (typeof p.fee_sat !== 'string') {
+  if (!isPopulatedString(p.fee_sat)) {
     return false
   }
-  if (typeof p.payment_hash !== 'string') {
+  if (!isPopulatedString(p.payment_hash)) {
     return false
   }
-  if (typeof p.payment_index !== 'string') {
+  if (!isPopulatedString(p.payment_index)) {
     return false
   }
-  if (typeof p.payment_preimage !== 'string') {
+  if (!isPopulatedString(p.payment_preimage)) {
     return false
   }
-  if (typeof p.payment_request !== 'string') {
+  if (!isPopulatedString(p.payment_request)) {
     return false
   }
   if (!isPaymentV2Status(p.status)) {
     return false
   }
-  if (typeof p.value_msat !== 'string') {
+  if (!isPopulatedString(p.value_msat)) {
     return false
   }
-  if (typeof p.value_sat !== 'string') {
+  if (!isPopulatedString(p.value_sat)) {
     return false
   }
 
