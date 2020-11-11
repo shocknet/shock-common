@@ -39,12 +39,7 @@ export const isChatMessage = (item: unknown): item is ChatMessage => {
   return true
 }
 
-/**
- * A simpler representation of a conversation between two users than the
- * outgoing/incoming feed paradigm. It combines both the outgoing and incoming
- * messages into one data structure plus metada about the chat.
- */
-export interface Chat {
+export interface ChatBase {
   /**
    * Chats now have IDs because of disconnect. RecipientPublicKey will no longer
    * be unique.
@@ -55,16 +50,28 @@ export interface Chat {
    */
   recipientAvatar: string | null
   recipientPublicKey: string
-  /**
-   * Sorted from most recent to least recent.
-   */
-  messages: ChatMessage[]
   recipientDisplayName: string | null
   /**
    * True if the recipient performed a disconnect.
    */
   didDisconnect: boolean
   lastSeenApp: number | undefined | null
+}
+
+/**
+ * A simpler representation of a conversation between two users than the
+ * outgoing/incoming feed paradigm. It combines both the outgoing and incoming
+ * messages into one data structure plus metada about the chat.
+ */
+export interface Chat extends ChatBase {
+  /**
+   * Sorted from most recent to least recent.
+   */
+  messages: ChatMessage[]
+}
+
+export interface ChatN extends ChatBase {
+  messages: string[]
 }
 
 export const isChat = (item: unknown): item is Chat => {
