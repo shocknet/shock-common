@@ -1,3 +1,5 @@
+import * as N from 'normalizr'
+
 export interface ChatMessage {
   body: string
   id: string
@@ -111,3 +113,29 @@ export const isChat = (item: unknown): item is Chat => {
 
   return obj.messages.every((msg) => isChatMessage(msg))
 }
+
+export const ChatMessage = new N.schema.Entity<ChatMessage>('chatMessage')
+
+export const Chat = new N.schema.Entity<Chat>('chats', {
+  messages: [ChatMessage],
+})
+
+type RelevantEntities = {
+  chats: Record<string, Chat>
+  messages: Record<string, ChatMessage>
+}
+
+/**
+ * @param posts
+ */
+export const normalizeChats = (chats: Chat[]) =>
+  N.normalize<Chat, RelevantEntities, Chat['id'][]>(chats, [Chat])
+
+/**
+ * @param chatsIDs
+ * @param relevantEntities
+ */
+export const denormalizeChats = (
+  chatsIDs: Chat['id'][],
+  relevantEntities: RelevantEntities,
+): Chat[] => N.denormalize(chatsIDs, [Chat], relevantEntities) as Chat[]
