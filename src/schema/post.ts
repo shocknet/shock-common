@@ -64,6 +64,8 @@ export interface RawPost {
   tags: string
 
   contentItems: Record<string, ContentItem>
+
+  tipCounter: number
 }
 
 export const isRawPost = (o: unknown): o is RawPost => {
