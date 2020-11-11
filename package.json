@@ -1,6 +1,6 @@
 {
   "name": "shock-common",
-  "version": "16.0.1",
+  "version": "16.1.0",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "react-native": "dist/index.es.js",
