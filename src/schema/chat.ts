@@ -121,7 +121,7 @@ export const Chat = new N.schema.Entity<Chat>('chats', {
 })
 
 type RelevantEntities = {
-  chats: Record<string, Chat>
+  chats: Record<string, ChatN>
   messages: Record<string, ChatMessage>
 }
 
