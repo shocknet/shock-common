@@ -114,7 +114,7 @@ export const isChat = (item: unknown): item is Chat => {
   return obj.messages.every((msg) => isChatMessage(msg))
 }
 
-export const ChatMessage = new N.schema.Entity<ChatMessage>('chatMessage')
+export const ChatMessage = new N.schema.Entity<ChatMessage>('chatMessages')
 
 export const Chat = new N.schema.Entity<Chat>('chats', {
   messages: [ChatMessage],
@@ -122,7 +122,7 @@ export const Chat = new N.schema.Entity<Chat>('chats', {
 
 type RelevantEntities = {
   chats: Record<string, ChatN>
-  messages: Record<string, ChatMessage>
+  chatMessages: Record<string, ChatMessage>
 }
 
 /**
