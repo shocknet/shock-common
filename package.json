@@ -60,11 +60,12 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn build && yarn lint-staged"
+      "pre-commit": "yarn test && yarn build && yarn lint-staged"
     }
   },
   "jest": {
     "preset": "ts-jest",
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "rootDir": "src"
   }
 }
