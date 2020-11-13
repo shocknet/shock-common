@@ -228,9 +228,13 @@ type RelevantEntities = {
  * @param posts
  */
 export const normalizePosts = (posts: Post[]) =>
-  N.normalize<Post, RelevantEntities, string[]>(posts, [Post])
+  N.normalize<Post, Partial<RelevantEntities>, Post['id'][]>(posts, [Post])
 
+/**
+ * @param postsIDs
+ * @param relevantEntities
+ */
 export const denormalizePosts = (
-  postsIDs: string[],
+  postsIDs: Post['id'][],
   relevantEntities: RelevantEntities,
 ): Post[] => N.denormalize(postsIDs, [Post], relevantEntities) as Post[]

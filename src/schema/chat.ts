@@ -129,7 +129,7 @@ type RelevantEntities = {
  * @param posts
  */
 export const normalizeChats = (chats: Chat[]) =>
-  N.normalize<Chat, RelevantEntities, Chat['id'][]>(chats, [Chat])
+  N.normalize<Chat, Partial<RelevantEntities>, Chat['id'][]>(chats, [Chat])
 
 /**
  * @param chatsIDs
