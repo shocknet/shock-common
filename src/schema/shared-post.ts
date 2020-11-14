@@ -3,6 +3,7 @@ import { isObj, isPopulatedString } from './misc'
 export interface SharedPostRaw {
   author: string
   id: string
+  date: number
 }
 
 export const isSharedPostRaw = (o: unknown): o is SharedPostRaw => {
@@ -17,6 +18,10 @@ export const isSharedPostRaw = (o: unknown): o is SharedPostRaw => {
   }
 
   if (!isPopulatedString(obj.id)) {
+    return false
+  }
+
+  if (typeof obj.date !== 'number') {
     return false
   }
 
