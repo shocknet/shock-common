@@ -1,12 +1,12 @@
 import { isObj, isPopulatedString } from './misc'
 
-export interface SharedPost {
+export interface SharedPostRaw {
   author: string
   id: string
 }
 
-export const isSharedPost = (o: unknown): o is SharedPost => {
-  const obj = o as SharedPost
+export const isSharedPostRaw = (o: unknown): o is SharedPostRaw => {
+  const obj = o as SharedPostRaw
 
   if (!isObj(o)) {
     return false
@@ -21,4 +21,18 @@ export const isSharedPost = (o: unknown): o is SharedPost => {
   }
 
   return true
+}
+
+export interface SharedPost extends SharedPostRaw {
+  sharedBy: string
+}
+
+export const isSharedPost = (o: unknown): o is SharedPost => {
+  if (!isSharedPostRaw(o)) {
+    return false
+  }
+
+  const obj = o as SharedPost
+
+  return isPopulatedString(obj.sharedBy)
 }
