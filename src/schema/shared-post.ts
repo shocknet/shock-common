@@ -1,9 +1,9 @@
 import { isObj, isPopulatedString } from './misc'
 
 export interface SharedPostRaw {
-  author: string
-  id: string
-  date: number
+  originalAuthor: string
+  originalPostID: string
+  originalDate: number
 }
 
 export const isSharedPostRaw = (o: unknown): o is SharedPostRaw => {
@@ -13,15 +13,15 @@ export const isSharedPostRaw = (o: unknown): o is SharedPostRaw => {
     return false
   }
 
-  if (!isPopulatedString(obj.author)) {
+  if (!isPopulatedString(obj.originalAuthor)) {
     return false
   }
 
-  if (!isPopulatedString(obj.id)) {
+  if (!isPopulatedString(obj.originalPostID)) {
     return false
   }
 
-  if (typeof obj.date !== 'number') {
+  if (typeof obj.originalDate !== 'number') {
     return false
   }
 
@@ -30,6 +30,7 @@ export const isSharedPostRaw = (o: unknown): o is SharedPostRaw => {
 
 export interface SharedPost extends SharedPostRaw {
   sharedBy: string
+  shareID: string
 }
 
 export const isSharedPost = (o: unknown): o is SharedPost => {
@@ -39,5 +40,5 @@ export const isSharedPost = (o: unknown): o is SharedPost => {
 
   const obj = o as SharedPost
 
-  return isPopulatedString(obj.sharedBy)
+  return isPopulatedString(obj.sharedBy) && isPopulatedString(obj.shareID)
 }
