@@ -76,7 +76,7 @@ export const isRawPost = (o: unknown): o is RawPost => {
   }
 
   // we'll ignore status it's deprecated
-  const { contentItems, date, tags, title } = rp
+  const { contentItems, date, tags, title, tipCounter } = rp
 
   if (!isObj(contentItems)) {
     return false
@@ -99,6 +99,10 @@ export const isRawPost = (o: unknown): o is RawPost => {
   }
 
   if (typeof title !== 'string') {
+    return false
+  }
+
+  if (typeof tipCounter !== 'number') {
     return false
   }
 
