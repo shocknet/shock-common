@@ -4,6 +4,7 @@ export interface SharedPostRaw {
   originalAuthor: string
   originalPostID: string
   originalDate: number
+  shareDate: number
 }
 
 export const isSharedPostRaw = (o: unknown): o is SharedPostRaw => {
@@ -22,6 +23,10 @@ export const isSharedPostRaw = (o: unknown): o is SharedPostRaw => {
   }
 
   if (typeof obj.originalDate !== 'number') {
+    return false
+  }
+
+  if (typeof obj.shareDate !== 'number') {
     return false
   }
 
