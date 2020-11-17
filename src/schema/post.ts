@@ -1,6 +1,6 @@
 import * as N from 'normalizr'
 
-import { User } from './user'
+import { User, createEmptyUser } from './user'
 import { isObj } from './misc'
 
 export interface EmbeddedVideo {
@@ -76,7 +76,7 @@ export const isRawPost = (o: unknown): o is RawPost => {
   }
 
   // we'll ignore status it's deprecated
-  const { contentItems, date, tags, title } = rp
+  const { contentItems, date, tags, title, tipCounter } = rp
 
   if (!isObj(contentItems)) {
     return false
@@ -99,6 +99,10 @@ export const isRawPost = (o: unknown): o is RawPost => {
   }
 
   if (typeof title !== 'string') {
+    return false
+  }
+
+  if (typeof tipCounter !== 'number') {
     return false
   }
 
@@ -213,6 +217,21 @@ export const isPost = (o: unknown): o is Post => {
     isObj(obj.contentItems) &&
     Object.values(obj.contentItems).every((ci) => isContentItem(ci))
   )
+}
+
+export const isPostN = (o: unknown): o is PostN => {
+  if (!isObj(o)) {
+    return false
+  }
+
+  if (typeof o.author !== 'string') {
+    return false
+  }
+
+  return isPost({
+    ...o,
+    author: createEmptyUser(o.author),
+  })
 }
 
 export const Post = new N.schema.Entity<Post>('posts', {
