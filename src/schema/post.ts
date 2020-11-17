@@ -1,6 +1,6 @@
 import * as N from 'normalizr'
 
-import { User } from './user'
+import { User, createEmptyUser } from './user'
 import { isObj } from './misc'
 
 export interface EmbeddedVideo {
@@ -217,6 +217,21 @@ export const isPost = (o: unknown): o is Post => {
     isObj(obj.contentItems) &&
     Object.values(obj.contentItems).every((ci) => isContentItem(ci))
   )
+}
+
+export const isPostN = (o: unknown): o is PostN => {
+  if (!isObj(o)) {
+    return false
+  }
+
+  if (typeof o.author !== 'string') {
+    return false
+  }
+
+  return isPost({
+    ...o,
+    author: createEmptyUser(o.author),
+  })
 }
 
 export const Post = new N.schema.Entity<Post>('posts', {
