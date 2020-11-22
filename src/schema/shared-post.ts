@@ -1,9 +1,10 @@
 import { isObj, isPopulatedString } from './misc'
 
+/**
+ * Shared post as it's stored in gun.
+ */
 export interface SharedPostRaw {
   originalAuthor: string
-  originalPostID: string
-  originalDate: number
   shareDate: number
 }
 
@@ -18,14 +19,6 @@ export const isSharedPostRaw = (o: unknown): o is SharedPostRaw => {
     return false
   }
 
-  if (!isPopulatedString(obj.originalPostID)) {
-    return false
-  }
-
-  if (typeof obj.originalDate !== 'number') {
-    return false
-  }
-
   if (typeof obj.shareDate !== 'number') {
     return false
   }
@@ -34,8 +27,8 @@ export const isSharedPostRaw = (o: unknown): o is SharedPostRaw => {
 }
 
 export interface SharedPost extends SharedPostRaw {
+  originalPostID: string
   sharedBy: string
-  shareID: string
 }
 
 export const isSharedPost = (o: unknown): o is SharedPost => {
@@ -45,5 +38,13 @@ export const isSharedPost = (o: unknown): o is SharedPost => {
 
   const obj = o as SharedPost
 
-  return isPopulatedString(obj.sharedBy) && isPopulatedString(obj.shareID)
+  if (!isPopulatedString(obj.originalPostID)) {
+    return false
+  }
+
+  if (!isPopulatedString(obj.sharedBy)) {
+    return false
+  }
+
+  return true
 }
