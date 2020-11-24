@@ -29,6 +29,11 @@ export const isSharedPostRaw = (o: unknown): o is SharedPostRaw => {
 export interface SharedPost extends SharedPostRaw {
   originalPostID: string
   sharedBy: string
+  /**
+   * Concatenation of public key of user sharing the post and the original
+   * post's ID.
+   */
+  shareID: string
 }
 
 export const isSharedPost = (o: unknown): o is SharedPost => {
@@ -43,6 +48,10 @@ export const isSharedPost = (o: unknown): o is SharedPost => {
   }
 
   if (!isPopulatedString(obj.sharedBy)) {
+    return false
+  }
+
+  if (!isPopulatedString(obj.shareID)) {
     return false
   }
 
