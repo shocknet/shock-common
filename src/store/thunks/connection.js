@@ -2,7 +2,7 @@ import * as Actions from '../actions'
 import * as API from '../api'
 import * as Logger from '../../logger'
 
-const { Http, RSAKeychain } = API.Misc
+const { Http, RSAKeychain } = API
 
 /**
  * @typedef {object} PublicKey
