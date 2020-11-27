@@ -3,9 +3,7 @@ import * as Actions from '../actions'
 
 import ShockThunk from './shock-thunk'
 
-const {
-  Misc: { Http },
-} = API
+const { Http } = API
 
 export const fetchNodeInfo = (): ShockThunk<
   Promise<API.Wallet.GetInfo>

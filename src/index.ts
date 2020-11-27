@@ -9,3 +9,6 @@ export { Logger, Schema, Constants, Utils, APISchema, Store }
 
 export * from './utils'
 export * from './api-schema'
+export * from './schema'
+export * from './store'
+export * from './constants'

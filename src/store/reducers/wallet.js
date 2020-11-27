@@ -1,8 +1,6 @@
 import * as Actions from '../actions'
 import * as API from '../api'
-const {
-  Misc: { Big },
-} = API
+const { Big } = API
 
 /**
  * @typedef {object} State

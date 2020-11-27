@@ -12,11 +12,11 @@ import * as API from './api'
 
 interface CreateStoreArgs {
   combineReducers: typeof Redux.combineReducers
-  Http: API.Misc.IHttp
-  RSAKeychain: API.Misc.IRSAKeychain
-  bigConstructor: API.Misc.BigConstructor
+  Http: API.IHttp
+  RSAKeychain: API.IRSAKeychain
+  bigConstructor: API.BigConstructor
   eventProviders: API.EventProviderMap
-  getToken: API.Misc.GetToken
+  getToken: API.GetToken
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -51,11 +51,11 @@ const createStore = ({
   eventProviders,
   getToken,
 }: CreateStoreArgs): ShockStore => {
-  API.Misc.setHttp(Http)
-  API.Misc.setRSAKeychain(RSAKeychain)
-  API.Misc.setBigConstructor(bigConstructor)
+  API.setHttp(Http)
+  API.setRSAKeychain(RSAKeychain)
+  API.setBigConstructor(bigConstructor)
   API.setEvents(eventProviders)
-  API.Misc.setGetToken(getToken)
+  API.setGetToken(getToken)
 
   const rootReducer: Redux.Reducer<
     State,
