@@ -105,6 +105,7 @@ export const isRawPost = (o: unknown): o is RawPost => {
 
 export interface PostBase extends RawPost {
   id: string
+  tipCounter: number
 }
 
 export interface Post extends PostBase {
