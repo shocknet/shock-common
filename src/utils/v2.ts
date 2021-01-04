@@ -5,7 +5,10 @@ type BetterExecutor<T> = (
 ) => void
 
 export const makePromise = <T>(executor: BetterExecutor<T>): Promise<T> => {
-  return new Promise<T>(executor)
+  return new Promise<T>(
+    // @ts-expect-error Type widening issue; TODO
+    executor,
+  )
 }
 
 export const timeout = <T>(ms: number, promise: Promise<T>): Promise<T> => {
