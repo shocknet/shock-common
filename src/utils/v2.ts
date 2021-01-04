@@ -1,4 +1,7 @@
+import { memo, MemoExoticComponent, FunctionComponent } from 'react'
+
 import * as Constants from '../constants'
+
 type BetterExecutor<T> = (
   resolve: (value?: T | PromiseLike<T>) => void,
   reject: (error: Error) => void,
@@ -26,4 +29,20 @@ export const timeout = <T>(ms: number, promise: Promise<T>): Promise<T> => {
       return v
     }),
   ])
+}
+
+export const betterReactMemo = <P = Record<string, unknown>>(
+  component: FunctionComponent<P>,
+): MemoExoticComponent<FunctionComponent<P>> => {
+  const MemoizedComponent = memo(component)
+
+  if (component.displayName) {
+    MemoizedComponent.displayName = 'Memoized' + component.displayName
+  }
+
+  // @ts-expect-error Not supported according to the typings but needed in some
+  // cases.
+  MemoizedComponent.propTypes = component.propTypes
+
+  return MemoizedComponent
 }
