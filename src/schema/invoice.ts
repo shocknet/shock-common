@@ -1,4 +1,4 @@
-import { isObj, isPopulatedString } from './misc'
+import { isObj, isPopulatedString, Feature, isFeature } from './misc'
 
 export interface Hash {
   data: number[]
@@ -34,24 +34,6 @@ export const isInvoiceWhenAdded = (o: unknown): o is InvoiceWhenAdded => {
     isPopulatedString(inv.add_index) &&
     isPopulatedString(inv.payment_request) &&
     isHash(inv.r_hash)
-  )
-}
-
-export interface Feature {
-  is_known: boolean
-  is_required: boolean
-  name: string
-}
-
-export const isFeature = (o: unknown): o is Feature => {
-  if (!isObj(o)) return false
-
-  const f = (o as unknown) as Feature
-
-  return (
-    typeof f.is_known === 'boolean' &&
-    typeof f.is_required === 'boolean' &&
-    isPopulatedString(f.name)
   )
 }
 
