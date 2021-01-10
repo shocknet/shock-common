@@ -5,3 +5,8 @@ export type FeeLevel = 'MAX' | 'MID' | 'MIN'
 
 export const isPopulatedString = (s: unknown): s is string =>
   typeof s === 'string' && s.length > 0
+
+export interface Bytes {
+  type: string
+  data: number[]
+}
