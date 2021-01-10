@@ -4,12 +4,6 @@ import * as Utils from '../../utils'
 import { Http, getToken } from './misc'
 
 /**
- * @typedef {object} Bytes
- * @prop {string} type
- * @prop {number[]} data
- */
-
-/**
  * @typedef {string} Int64
  * @typedef {string} Int32
  */
@@ -106,11 +100,11 @@ import { Http, getToken } from './misc'
  * for record keeping purposes for the invoice's creator, and will also be set
  * in the description field of the encoded payment request if the
  * description_hash field is not being used.
- * @prop {Bytes} receipt  Deprecated. An optional cryptographic receipt of
+ * @prop {any} receipt  Deprecated. An optional cryptographic receipt of
  * payment which is not implemented.
- * @prop {Bytes} r_preimage The hex-encoded preimage (32 byte) which will allow
+ * @prop {any} r_preimage The hex-encoded preimage (32 byte) which will allow
  * settling an incoming HTLC payable to this preimage
- * @prop {Bytes} r_hash The hash of the preimage
+ * @prop {any} r_hash The hash of the preimage
  * @prop {Int64} value  The value of this invoice in satoshis
  * @prop {boolean} settled Whether this invoice has been fulfilled
  * @prop {Int64} creation_date  When this invoice was created
@@ -118,7 +112,7 @@ import { Http, getToken } from './misc'
  * @prop {string} payment_request A bare-bones invoice for a payment within the
  * Lightning Network. With the details of the invoice, the sender has all the
  * data necessary to send a payment to the recipient.
- * @prop {Bytes} description_hash Hash (SHA-256) of a description of the
+ * @prop {any} description_hash Hash (SHA-256) of a description of the
  * payment. Used if the description of payment (memo) is too long to naturally
  * fit within the description field of an encoded payment request.
  * @prop {Int64} expiry Payment request expiry time in seconds. Default is 3600
@@ -239,7 +233,7 @@ import { Http, getToken } from './misc'
 /**
  * @typedef {object} Chain
  * @prop {string[]} chan_points	Is the set of all channels that are included in this multi-channel backup.
- * @prop {Bytes} multi_chan_backup	A single encrypted blob containing all the static channel backups of the channel listed above. This can be stored as a single file or blob, and safely be replaced with any prior/future versions. When using REST, this field must be encoded as base64.
+ * @prop {any} multi_chan_backup	A single encrypted blob containing all the static channel backups of the channel listed above. This can be stored as a single file or blob, and safely be replaced with any prior/future versions. When using REST, this field must be encoded as base64.
  */
 
 /**
@@ -683,9 +677,9 @@ export const addInvoice = async (request) => {
  * https://api.lightning.community/#grpc-request-sendrequest
  * @typedef {object} SendResponse
  * @prop {string} payment_error
- * @prop {Bytes} payment_preimage
+ * @prop {any} payment_preimage
  * @prop {Route} payment_route
- * @prop {Bytes} payment_hash
+ * @prop {any} payment_hash
  */
 
 /**
