@@ -258,3 +258,154 @@ export interface Channel {
    */
   remote_constraints: ChannelConstraints
 }
+
+export type Initiator =
+  | 'INITIATOR_UNKNOWN'
+  | 'INITIATOR_LOCAL'
+  | 'INITIATOR_REMOTE'
+  | 'INITIATOR_BOTH'
+
+export interface PendingChannel {
+  remote_node_pub: string
+  channel_point: string
+  capacity: string
+  local_balance: string
+  remote_balance: string
+  /**
+   * The minimum satoshis this node is required to reserve in its balance.
+   */
+  local_chan_reserve_sat: string
+  /**
+   * The minimum satoshis the other node is required to reserve in its balance.
+   */
+  remote_chan_reserve_sat: string
+  /**
+   * The party that initiated opening the channel.
+   */
+  initiator: Initiator
+  /**
+   * The commitment type used by this channel.
+   */
+  commitment_type: CommitmentType
+}
+
+/**
+ * https://api.lightning.community/#lnrpc-pendingchannelsresponse-pendingopenchannel
+ */
+export interface PendingOpenChannel {
+  /**
+   * The pending channel.
+   */
+  channel: PendingChannel
+  /**
+   * The height at which this channel will be confirmed.
+   */
+  confirmation_height: string
+  /**
+   * The amount calculated to be paid in fees for the current set of commitment
+   * transactions. The fee amount is persisted with the channel in order to allow
+   * the fee amount to be removed and recalculated with each channel state update,
+   * including updates that happen after a system restart.
+   */
+  commit_fee: string
+  /**
+   * The weight of the commitment transaction.
+   */
+  commit_weight: string
+  /**
+   * The required number of satoshis per kilo-weight that the requester will pay
+   * at all times, for both the funding transaction and commitment transaction.
+   * This value can later be updated once the channel is open.
+   */
+  fee_per_kw: string
+}
+
+export interface ClosedChannel {
+  /**
+   * The pending channel to be closed.
+   */
+  channel: PendingChannel
+  /**
+   * The transaction id of the closing transaction.
+   */
+  closing_txid: string
+}
+
+export interface Commitments {
+  /**
+   * Hash of the local version of the commitment tx.
+   */
+  local_txid: string
+  /**
+   * Hash of the remote version of the commitment tx.
+   */
+  remote_txid: string
+  /**
+   * Hash of the remote pending version of the commitment tx.
+   */
+  remote_pending_txid: string
+  /**
+   * The amount in satoshis calculated to be paid in fees for the local
+   * commitment.
+   */
+  local_commit_fee_sat: string
+  /**
+   * The amount in satoshis calculated to be paid in fees for the remote
+   * commitment.
+   */
+  remote_commit_fee_sat: string
+  /**
+   * The amount in satoshis calculated to be paid in fees for the remote pending
+   * commitment.
+   */
+  remote_pending_commit_fee_sat: string
+}
+
+export interface ForceClosedChannel {
+  /**
+   *  The pending channel to be force closed
+   */
+  channel: PendingChannel
+  /**
+   *  The transaction id of the closing transaction
+   */
+  closing_txid: string
+  /**
+   *  The balance in satoshis encumbered in this pending channel
+   */
+  limbo_balance: string
+  /**
+   *  The height at which funds can be swept into the wallet
+   */
+  maturity_height: string
+  /**
+   *  Remaining # of blocks until the commitment output can be swept. Negative
+   *  values indicate how many blocks have passed since becoming mature.
+   */
+  blocks_til_maturity: string
+  /**
+   *  The total value of funds successfully recovered from this channel
+   */
+  recovered_balance: string
+  /**
+   *
+   */
+  pending_htlcs: HTLC[]
+  anchor: 'LIMBO' | 'RECOVERED' | 'LOST'
+}
+
+export interface WaitingCloseChannel {
+  /**
+   * The pending channel waiting for closing tx to confirm.
+   */
+  channel: PendingChannel
+  /**
+   * The balance in satoshis encumbered in this channel.
+   */
+  limbo_balance: string
+  /**
+   * A list of valid commitment transactions. Any of these can confirm at this
+   * point.
+   */
+  commitments: Commitments
+}
