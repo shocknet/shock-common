@@ -16,7 +16,7 @@ export interface Coordinate {
   /**
    * Node  where transaction was received.
    */
-  toLndPub: string
+  toLndPub?: string
   /**
    * It is optional, if the payment/invoice is not related to an order.
    */
