@@ -1,7 +1,7 @@
 export type OrderTargetType = 'spontaneousPayment' | 'tip' | 'torrentSeed' | 'contentReveal' | 'other'
 
 export const isOrderTargetType = (str: string) =>
-  str === 'user' || str === 'post'
+  str === 'spontaneousPayment' || str === 'tip' || str === 'torrentSeed' || str === 'contentReveal' || str === 'other'
 
 export interface Order {
   /**
