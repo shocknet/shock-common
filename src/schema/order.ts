@@ -60,7 +60,7 @@ export const isOrder = (item: unknown): item is Order => {
 }
 
 export interface OrderResponse {
-  type: 'err' | 'invoice'
+  type: 'err' | 'invoice' | 'orderAck'
   response: string
 }
 
