@@ -1,7 +1,7 @@
-export type OrderTargetType = 'user' | 'post'
+export type OrderTargetType = 'spontaneousPayment' | 'tip' | 'torrentSeed' | 'contentReveal' | 'other'
 
 export const isOrderTargetType = (str: string) =>
-  str === 'user' || str === 'post'
+  str === 'spontaneousPayment' || str === 'tip' || str === 'torrentSeed' || str === 'contentReveal' || str === 'other'
 
 export interface Order {
   /**
@@ -19,8 +19,8 @@ export interface Order {
   timestamp: number
   targetType: OrderTargetType
 
-  /** Fields for "post" TargetType */
-  postID?: string
+  /** Field for general ack request info */
+  ackInfo?: string
 }
 
 export const isOrder = (item: unknown): item is Order => {
@@ -50,8 +50,8 @@ export const isOrder = (item: unknown): item is Order => {
     return false
   }
 
-  if (obj.targetType === 'post') {
-    if (typeof obj.postID !== 'string') {
+  if (obj.targetType === 'tip') {
+    if (typeof obj.ackInfo !== 'string') {
       return false
     }
   }
