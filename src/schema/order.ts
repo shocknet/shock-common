@@ -5,7 +5,7 @@ export type OrderTargetType =
   | 'contentReveal'
   | 'other'
 
-export const isOrderTargetType = (str: string) =>
+export const isOrderTargetType = (str: string): str is OrderTargetType =>
   str === 'spontaneousPayment' ||
   str === 'tip' ||
   str === 'torrentSeed' ||
