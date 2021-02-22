@@ -1,7 +1,16 @@
-export type OrderTargetType = 'spontaneousPayment' | 'tip' | 'torrentSeed' | 'contentReveal' | 'other'
+export type OrderTargetType =
+  | 'spontaneousPayment'
+  | 'tip'
+  | 'torrentSeed'
+  | 'contentReveal'
+  | 'other'
 
-export const isOrderTargetType = (str: string) =>
-  str === 'spontaneousPayment' || str === 'tip' || str === 'torrentSeed' || str === 'contentReveal' || str === 'other'
+export const isOrderTargetType = (str: string): str is OrderTargetType =>
+  str === 'spontaneousPayment' ||
+  str === 'tip' ||
+  str === 'torrentSeed' ||
+  str === 'contentReveal' ||
+  str === 'other'
 
 export interface Order {
   /**
@@ -62,6 +71,10 @@ export const isOrder = (item: unknown): item is Order => {
 export interface OrderResponse {
   type: 'err' | 'invoice' | 'orderAck'
   response: string
+  /**
+   * Another order_to_response node where paid content will be served.
+   */
+  ackNode?: string
 }
 
 export const isOrderResponse = (o: unknown): o is OrderResponse => {
