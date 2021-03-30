@@ -3,6 +3,9 @@ export type OrderType =
   | 'tip'
   | 'service'
   | 'product'
+  | 'torrentSeed'
+  | 'streamSeed'
+  | 'contentReveal'
   | 'other'
   | 'invoice'
   | 'payment'
@@ -43,10 +46,14 @@ export interface Coordinate {
    */
   ownerGunPub?: string
   /**
-   * Can be payment_hash, or r_hash depending on if it's a
-   * payment  or an invoice, if it's a r_hash, must be hex encoded.
+   * Can be payment_index, or add_index depending on if it's a payment  or an invoice
    */
-  id: string
+  coordinateIndex: number
+  /**
+   * Can be payment_hash, or r_hash depending on if it's a payment  or an invoice,
+   * if it's a r_hash, must be hex encoded
+   */
+  coordinateHash: string
   /**
    * The order type.
    */

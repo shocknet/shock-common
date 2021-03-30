@@ -30,6 +30,21 @@ export interface EmbeddedImage {
 
   isPrivate: boolean
 }
+export interface EmbeddedStream {
+  type: 'stream/embedded'
+
+  magnetURI: string
+
+  width: string
+
+  height: string
+
+  isPreview: boolean
+
+  isPrivate: boolean
+
+  userToken: string
+}
 
 export interface Paragraph {
   type: 'text/paragraph'
@@ -37,7 +52,7 @@ export interface Paragraph {
   text: string
 }
 
-export type ContentItem = EmbeddedImage | EmbeddedVideo | Paragraph
+export type ContentItem = EmbeddedImage | EmbeddedVideo | Paragraph | EmbeddedStream
 
 export type PostStatus = 'draft' | 'publish' | 'private' | 'pending'
 
