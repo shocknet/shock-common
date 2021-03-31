@@ -28,3 +28,12 @@ export const timeout = <T>(ms: number, promise: Promise<T>): Promise<T> => {
     }),
   ])
 }
+
+type R<T> = T extends Promise<infer U> ? U : T
+/**
+ * Helper for return types via typescript of yield calls inside sagas.
+ */
+export type YieldReturn<T> = R<
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ReturnType<T extends (...args: any) => any ? T : any>
+>
