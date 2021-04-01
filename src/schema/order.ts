@@ -4,13 +4,19 @@ export type OrderTargetType =
   | 'torrentSeed'
   | 'contentReveal'
   | 'other'
+  | 'streamSeed'
+  | 'service'
+  | 'product'
 
 export const isOrderTargetType = (str: string): str is OrderTargetType =>
   str === 'spontaneousPayment' ||
   str === 'tip' ||
   str === 'torrentSeed' ||
   str === 'contentReveal' ||
-  str === 'other'
+  str === 'other' ||
+  str === 'streamSeed' ||
+  str === 'service' ||
+  str === 'product'
 
 export interface Order {
   /**
@@ -59,7 +65,14 @@ export const isOrder = (item: unknown): item is Order => {
     return false
   }
 
-  if (obj.targetType === 'tip') {
+  if (
+    obj.targetType === 'tip' || 
+    obj.targetType === 'torrentSeed' ||
+    obj.targetType === 'contentReveal' ||
+    obj.targetType === 'streamSeed' ||
+    obj.targetType === 'service' ||
+    obj.targetType === 'product'
+  ) {
     if (typeof obj.ackInfo !== 'string') {
       return false
     }
