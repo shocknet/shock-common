@@ -1,5 +1,17 @@
 export const LAST_SEEN_NODE_INTERVAL = 10000
 
+export const LAST_SEEN_APP_INTERVAL = 30000
+
+/**
+ * @param {number} lastSeen
+ * @returns {boolean}
+ */
+export const isAppOnline = (lastSeen: number): boolean =>
+  Date.now() - lastSeen < LAST_SEEN_APP_INTERVAL * 2
+
+export const isNodeOnline = (lastSeenNode: number): boolean =>
+  Date.now() - lastSeenNode < LAST_SEEN_NODE_INTERVAL
+
 /**
  * An special message signaling the acceptance.
  */
