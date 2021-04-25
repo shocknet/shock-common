@@ -7,7 +7,7 @@ export const LAST_SEEN_APP_INTERVAL = 30000
  * @returns {boolean}
  */
 export const isAppOnline = (lastSeen: number): boolean =>
-  Date.now() - lastSeen < LAST_SEEN_APP_INTERVAL * 2
+  Date.now() - lastSeen < LAST_SEEN_APP_INTERVAL
 
 export const isNodeOnline = (lastSeenNode: number): boolean =>
   Date.now() - lastSeenNode < LAST_SEEN_NODE_INTERVAL
