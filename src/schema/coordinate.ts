@@ -11,6 +11,9 @@ export type OrderType =
   | 'payment'
   | 'chainTx'
 
+/**
+ * This represents a settled order only, unsettled orders have no coordinate.
+ */
 export interface Coordinate {
   /**
    * Can be unknown when inbound.
@@ -67,7 +70,7 @@ export interface Coordinate {
    */
   description?: string
   /**
-   *
+   * The memo embedded in the invoice if present.
    */
   invoiceMemo?: string
   /**
