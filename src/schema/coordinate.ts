@@ -1,3 +1,5 @@
+import { isObj, isPopulatedString } from './misc'
+
 export type OrderType =
   | 'spontaneousPayment'
   | 'tip'
@@ -10,6 +12,26 @@ export type OrderType =
   | 'invoice'
   | 'payment'
   | 'chainTx'
+
+export const isOrderType = (o: unknown): o is OrderType => {
+  if (typeof o !== 'string') {
+    return false
+  }
+
+  return [
+    'spontaneousPayment',
+    'tip',
+    'service',
+    'product',
+    'torrentSeed',
+    'streamSeed',
+    'contentReveal',
+    'other',
+    'invoice',
+    'payment',
+    'chainTx',
+  ].includes(o)
+}
 
 /**
  * This represents a settled order only, unsettled orders have no coordinate.
@@ -40,7 +62,7 @@ export interface Coordinate {
    */
   toBtcPub?: string
   /**
-   * True if inbound trasaction.
+   * True if inbound transaction.
    */
   inbound: boolean
   /**
@@ -66,7 +88,7 @@ export interface Coordinate {
    */
   amount: number
   /**
-   * Description about trasaction.
+   * Description about transaction.
    */
   description?: string
   /**
@@ -81,4 +103,68 @@ export interface Coordinate {
    * Will be added ar processing time if empty
    */
   timestamp: number
+}
+
+export const isCoordinate = (o: unknown): o is Coordinate => {
+  if (!isObj(o)) {
+    return false
+  }
+
+  const obj = (o as unknown) as Coordinate
+
+  if (obj.fromLndPub && typeof obj.fromLndPub !== 'string') {
+    return false
+  }
+  if (obj.toLndPub && typeof obj.toLndPub !== 'string') {
+    return false
+  }
+  if (obj.fromGunPub && typeof obj.fromGunPub !== 'string') {
+    return false
+  }
+  if (obj.toGunPub && typeof obj.toGunPub !== 'string') {
+    return false
+  }
+  if (obj.fromBtcPub && typeof obj.fromBtcPub !== 'string') {
+    return false
+  }
+  if (obj.toBtcPub && typeof obj.toBtcPub !== 'string') {
+    return false
+  }
+
+  if (obj.ownerGunPub && typeof obj.ownerGunPub !== 'string') {
+    return false
+  }
+
+  if (obj.description && typeof obj.description !== 'string') {
+    return false
+  }
+  if (obj.invoiceMemo && typeof obj.invoiceMemo !== 'string') {
+    return false
+  }
+  if (obj.metadata && typeof obj.metadata !== 'string') {
+    return false
+  }
+
+  // obligatory fields
+
+  if (typeof obj.coordinateIndex !== 'number') {
+    return false
+  }
+  if (typeof obj.inbound !== 'boolean') {
+    return false
+  }
+  if (typeof obj.amount !== 'number') {
+    return false
+  }
+  if (!isPopulatedString(obj.coordinateHash)) {
+    return false
+  }
+  if (!isOrderType(obj.type)) {
+    return false
+  }
+  if (typeof obj.timestamp !== 'number') {
+    return false
+  }
+
+  return true
 }
