@@ -40,7 +40,7 @@ export interface Coordinate {
    */
   toBtcPub?: string
   /**
-   * True if inbound trasaction.
+   * True if inbound transaction.
    */
   inbound: boolean
   /**
@@ -66,7 +66,7 @@ export interface Coordinate {
    */
   amount: number
   /**
-   * Description about trasaction.
+   * Description about transaction.
    */
   description?: string
   /**
