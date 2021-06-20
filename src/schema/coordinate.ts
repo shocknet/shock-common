@@ -36,7 +36,7 @@ export const isOrderType = (o: unknown): o is OrderType => {
 /**
  * This represents a settled order only, unsettled orders have no coordinate.
  */
-export interface Coordinate {
+export interface CoordinateOrder {
   /**
    * Can be unknown when inbound.
    */
@@ -105,12 +105,12 @@ export interface Coordinate {
   timestamp: number
 }
 
-export const isCoordinate = (o: unknown): o is Coordinate => {
+export const isCoordinate = (o: unknown): o is CoordinateOrder => {
   if (!isObj(o)) {
     return false
   }
 
-  const obj = (o as unknown) as Coordinate
+  const obj = (o as unknown) as CoordinateOrder
 
   if (obj.fromLndPub && typeof obj.fromLndPub !== 'string') {
     return false
