@@ -52,7 +52,11 @@ export interface Paragraph {
   text: string
 }
 
-export type ContentItem = EmbeddedImage | EmbeddedVideo | Paragraph | EmbeddedStream
+export type ContentItem =
+  | EmbeddedImage
+  | EmbeddedVideo
+  | Paragraph
+  | EmbeddedStream
 
 export type PostStatus = 'draft' | 'publish' | 'private' | 'pending'
 
