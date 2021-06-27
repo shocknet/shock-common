@@ -52,7 +52,11 @@ export interface Paragraph {
   text: string
 }
 
-export type ContentItem = EmbeddedImage | EmbeddedVideo | Paragraph | EmbeddedStream
+export type ContentItem =
+  | EmbeddedImage
+  | EmbeddedVideo
+  | Paragraph
+  | EmbeddedStream
 
 export type PostStatus = 'draft' | 'publish' | 'private' | 'pending'
 
@@ -132,7 +136,7 @@ export interface PostN extends PostBase {
 }
 
 export const isEmbeddedImage = (
-  contentItem: ContentItem,
+  contentItem: unknown,
 ): contentItem is EmbeddedImage => {
   if (!isObj(contentItem)) {
     return false
@@ -158,7 +162,7 @@ export const isEmbeddedImage = (
 }
 
 export const isEmbeddedVideo = (
-  contentItem: ContentItem,
+  contentItem: unknown,
 ): contentItem is EmbeddedVideo => {
   if (!isObj(contentItem)) {
     return false
@@ -183,9 +187,7 @@ export const isEmbeddedVideo = (
   return true
 }
 
-export const isParagraph = (
-  contentItem: ContentItem,
-): contentItem is Paragraph => {
+export const isParagraph = (contentItem: unknown): contentItem is Paragraph => {
   if (!isObj(contentItem)) {
     return false
   }
@@ -202,7 +204,7 @@ export const isParagraph = (
 }
 
 export const isContentItem = (
-  contentItem: ContentItem,
+  contentItem: unknown,
 ): contentItem is ContentItem =>
   isEmbeddedVideo(contentItem) ||
   isEmbeddedImage(contentItem) ||
