@@ -1,7 +1,9 @@
 import * as N from 'normalizr'
+import isBoolean from 'lodash/isBoolean'
+import isFinite from 'lodash/isFinite'
 
 import { User, createEmptyUser } from './user'
-import { isObj } from './misc'
+import { isObj, isPopulatedString } from './misc'
 
 export const createValidator = <T extends Record<string, any>>(
   valMap: Record<keyof T, (val: unknown) => void>,
@@ -46,21 +48,48 @@ export interface EmbeddedImage {
 
   isPrivate: boolean
 }
+
+export type LiveStatus = 'live' | 'waiting' | 'wasLive' | 'Is Live'
 export interface EmbeddedStream {
   type: 'stream/embedded'
 
   magnetURI: string
 
-  width: string
+  width: number
 
-  height: string
+  height: number
 
   isPreview: boolean
 
   isPrivate: boolean
 
   userToken: string
+
+  liveStatus: LiveStatus
+
+  viewersCounter: number
+
+  statusUrl: string
 }
+
+export const isLiveStatus = (s: unknown): s is LiveStatus => {
+  return ['live', 'waiting', 'wasLive', 'Is Live'].includes(s as string)
+}
+
+export const isEmbeddedStream = createValidator<EmbeddedStream>({
+  height: isFinite,
+  isPreview: isBoolean,
+  isPrivate: isBoolean,
+  liveStatus: isLiveStatus,
+  magnetURI: isPopulatedString,
+  statusUrl: isPopulatedString,
+  type(val: unknown) {
+    return val === 'stream/embedded'
+  },
+  userToken: isPopulatedString,
+  viewersCounter: isFinite,
+  width: isFinite,
+})
 
 export interface Paragraph {
   type: 'text/paragraph'
