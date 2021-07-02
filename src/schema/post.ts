@@ -1,8 +1,26 @@
 import * as N from 'normalizr'
+import isBoolean from 'lodash/isBoolean'
+import isFinite from 'lodash/isFinite'
 
 import { User, createEmptyUser } from './user'
-import { isObj } from './misc'
+import { isObj, isPopulatedString } from './misc'
 
+export const createValidator = <T extends Record<string, any>>(
+  valMap: Record<keyof T, (val: unknown) => void>,
+  baseValidator: (o: unknown) => boolean = () => true,
+) => (o: unknown): o is T => {
+  if (!isObj(o)) {
+    return false
+  }
+
+  if (!baseValidator(o)) {
+    return false
+  }
+
+  return Object.entries(valMap).every(([key, validator]) => {
+    return validator(o[key])
+  })
+}
 export interface EmbeddedVideo {
   type: 'video/embedded'
 
@@ -30,21 +48,48 @@ export interface EmbeddedImage {
 
   isPrivate: boolean
 }
+
+export type LiveStatus = 'live' | 'waiting' | 'wasLive' | 'Is Live'
 export interface EmbeddedStream {
   type: 'stream/embedded'
 
   magnetURI: string
 
-  width: string
+  width: number
 
-  height: string
+  height: number
 
   isPreview: boolean
 
   isPrivate: boolean
 
   userToken: string
+
+  liveStatus: LiveStatus
+
+  viewersCounter: number
+
+  statusUrl: string
 }
+
+export const isLiveStatus = (s: unknown): s is LiveStatus => {
+  return ['live', 'waiting', 'wasLive', 'Is Live'].includes(s as string)
+}
+
+export const isEmbeddedStream = createValidator<EmbeddedStream>({
+  height: isFinite,
+  isPreview: isBoolean,
+  isPrivate: isBoolean,
+  liveStatus: isLiveStatus,
+  magnetURI: isPopulatedString,
+  statusUrl: isPopulatedString,
+  type(val: unknown) {
+    return val === 'stream/embedded'
+  },
+  userToken: isPopulatedString,
+  viewersCounter: isFinite,
+  width: isFinite,
+})
 
 export interface Paragraph {
   type: 'text/paragraph'
@@ -208,7 +253,8 @@ export const isContentItem = (
 ): contentItem is ContentItem =>
   isEmbeddedVideo(contentItem) ||
   isEmbeddedImage(contentItem) ||
-  isParagraph(contentItem)
+  isParagraph(contentItem) ||
+  isEmbeddedStream(contentItem)
 
 export const isPostStatus = (str: PostStatus): str is PostStatus =>
   str === 'draft' || str === 'pending' || str === 'private' || str === 'publish'
