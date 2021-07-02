@@ -253,7 +253,8 @@ export const isContentItem = (
 ): contentItem is ContentItem =>
   isEmbeddedVideo(contentItem) ||
   isEmbeddedImage(contentItem) ||
-  isParagraph(contentItem)
+  isParagraph(contentItem) ||
+  isEmbeddedStream(contentItem)
 
 export const isPostStatus = (str: PostStatus): str is PostStatus =>
   str === 'draft' || str === 'pending' || str === 'private' || str === 'publish'
