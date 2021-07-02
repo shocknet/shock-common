@@ -3,6 +3,22 @@ import * as N from 'normalizr'
 import { User, createEmptyUser } from './user'
 import { isObj } from './misc'
 
+export const createValidator = <T extends Record<string, any>>(
+  valMap: Record<keyof T, (val: unknown) => void>,
+  baseValidator: (o: unknown) => boolean = () => true,
+) => (o: unknown): o is T => {
+  if (!isObj(o)) {
+    return false
+  }
+
+  if (!baseValidator(o)) {
+    return false
+  }
+
+  return Object.entries(valMap).every(([key, validator]) => {
+    return validator(o[key])
+  })
+}
 export interface EmbeddedVideo {
   type: 'video/embedded'
 
