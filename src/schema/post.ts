@@ -49,7 +49,7 @@ export interface EmbeddedImage {
   isPrivate: boolean
 }
 
-export type LiveStatus = 'live' | 'waiting' | 'wasLive' | 'Is Live'
+export type LiveStatus = 'live' | 'waiting' | 'wasLive'
 export interface EmbeddedStream {
   type: 'stream/embedded'
 
@@ -73,7 +73,7 @@ export interface EmbeddedStream {
 }
 
 export const isLiveStatus = (s: unknown): s is LiveStatus => {
-  return ['live', 'waiting', 'wasLive', 'Is Live'].includes(s as string)
+  return ['live', 'waiting', 'wasLive'].includes(s as string)
 }
 
 export const isEmbeddedStream = createValidator<EmbeddedStream>({
