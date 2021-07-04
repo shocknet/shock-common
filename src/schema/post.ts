@@ -1,6 +1,7 @@
 import * as N from 'normalizr'
 import isBoolean from 'lodash/isBoolean'
 import isFinite from 'lodash/isFinite'
+import isString from 'lodash/isString'
 
 import { User, createEmptyUser } from './user'
 import { isObj, isPopulatedString } from './misc'
@@ -70,6 +71,8 @@ export interface EmbeddedStream {
   viewersCounter: number
 
   statusUrl: string
+
+  playbackMagnet: string
 }
 
 export const isLiveStatus = (s: unknown): s is LiveStatus => {
@@ -82,6 +85,7 @@ export const isEmbeddedStream = createValidator<EmbeddedStream>({
   isPrivate: isBoolean,
   liveStatus: isLiveStatus,
   magnetURI: isPopulatedString,
+  playbackMagnet: isString,
   statusUrl: isPopulatedString,
   type(val: unknown) {
     return val === 'stream/embedded'
