@@ -46,9 +46,9 @@ export const User = new schema.Entity<User>(
 
 export const createEmptyUser = (publicKey: string): User => ({
   avatar: null,
-  bio: null,
+  bio: 'Shockwallet User',
   header: null,
-  displayName: null,
+  displayName: 'anon' + publicKey.slice(-8),
   lastSeenApp: 0,
   lastSeenNode: 0,
   publicKey,
