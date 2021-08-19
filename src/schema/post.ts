@@ -70,6 +70,8 @@ export interface EmbeddedStream {
 
   viewersCounter: number
 
+  viewersSocketUrl: string
+
   statusUrl: string
 
   playbackMagnet: string
@@ -92,6 +94,9 @@ export const isEmbeddedStream = createValidator<EmbeddedStream>({
   },
   userToken: isPopulatedString,
   viewersCounter: isFinite,
+  viewersSocketUrl(val: unknown) {
+    return typeof val === 'string'
+  },
   width: isFinite,
 })
 
